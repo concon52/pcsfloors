@@ -56,9 +56,10 @@
 	}
 	.slider-btn{
 		font-size:16px;
-		height:45px;
-		line-height:45px;
-		width:150px
+		height:unset;
+		line-height:unset;
+		padding:20px;
+		width:unset
 	}
 	.title-one{
 		font-size:24px
