@@ -282,7 +282,7 @@ h1, h2, h3, h4, h5, h6 {
 	padding: 6px 15px;
 }
 
-#navigation .navbar-inverse .navbar-nav  .active  a,  
+#navigation .navbar-inverse .navbar-nav  .active > a,  
 #navigation .navbar-inverse .navbar-nav  .active  a:focus, 
 #navigation .navbar-nav.navbar-right li a:hover {
 	color: #fff;
@@ -1510,10 +1510,10 @@ h1, h2, h3, h4, h5, h6 {
    -moz-transform: scale(10);
    -o-transform: scale(10);
    -ms-transform: scale(10);
-   transform: scale(10);
-   -ms-filter: "progid: DXImageTransform.Microsoft.Alpha(Opacity=0)";
-   filter: alpha(opacity=0);
-   opacity: 0;
+   transform: scale(2);
+   -ms-filter: "progid: DXImageTransform.Microsoft.Alpha(Opacity=1)";
+   filter: alpha(opacity=1);
+   opacity: 1;
 }
 .efffect:hover .mask {
    -ms-filter: "progid: DXImageTransform.Microsoft.Alpha(Opacity=100)";
@@ -1539,3 +1539,19 @@ h1, h2, h3, h4, h5, h6 {
 
 /*** [END] OUR NEW ADDITIONS ***/
 
+
+.dropdown:hover .dropdown-menu {
+display: block;
+}
+
+.addToCartButton {
+	float: right;
+	background-color: #fc7700;
+	color: white;
+}
+
+a.pp_close {
+	z-index: 1;
+	right: 10px;
+	top: 10px;
+}
