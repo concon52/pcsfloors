@@ -60,6 +60,8 @@
 	}
 
 	// grab json obj from post (/scrapers/scraperHelpers.py)
+	//$jsonobj = json_decode($_POST['json']);
+	$jsonobj = json_decode(file_get_contents('php://input'));
 	print_r($jsonobj);
 
 	// download pictures from urls
@@ -73,6 +75,20 @@
 		}
 		imagejpeg($picture, $path);
 		$value = $path;
+	}
+	unset($value);
+
+
+	foreach ($jsonobj['colors'] as &$value)
+	{
+		$colorpicture = imageCreateFromFile($value['url']);
+		$colorpath = "/pictures/" . generateRandomString() . ".jpg";
+		while (file_exists($colorpath))
+		{
+			$colorpath = "/pictures/" . generateRandomString() . ".jpg";
+		}
+		imagejpeg($colorpicture, $colorpath);
+		$value['url'] = $colorpath;
 	}
 	unset($value);
 
