@@ -1,15 +1,16 @@
 <?php
 
-	$fields = array('name' => $_POST['name'], 
-					'manufacturer' => $_POST['manufacturer'], 
-					'type' => $_POST['type'], 
-					'picture' => $_POST['picture'], 
-					'colors' => $_POST['colors'], 
-					'id' => $_POST['id'], 
-					'description' => $_POST['description'], 
-					'manurl' => $_POST['manurl']);
+	// 	HTML Template
+	// $fields = array('name' => $_POST['name'], 
+	// 				'manufacturer' => $_POST['manufacturer'], 
+	// 				'type' => $_POST['type'], 
+	// 				'picture' => $_POST['picture'], 
+	// 				'colors' => $_POST['colors'], 
+	// 				'id' => $_POST['id'], 
+	// 				'description' => $_POST['description'], 
+	// 				'manurl' => $_POST['manurl']);
 
-	//	 TEST
+	//	TEST
 	// $fields = array('name' => 'test1', 
 	// 				'manufacturer' => 'test2', 
 	// 				'type' => 'test3', 
@@ -19,6 +20,63 @@
 	// 				'description' => 'test7', 
 	// 				'manurl' => 'test8');
 
+
+	// function to grab picture from url
+	function imageCreateFromFile( $filename ) 
+	{
+	    {
+	        case 'jpeg':
+	        case 'jpg':
+	            return imagecreatefromjpeg($filename);
+	        	break;
+
+	        case 'png':
+	            return imagecreatefrompng($filename);
+	        	break;
+
+	        case 'gif':
+	            return imagecreatefromgif($filename);
+	        	break;
+
+	        default:
+	            throw new InvalidArgumentException('File "'.$filename.'" is not valid jpg, png or gif image.');
+	       		break;
+	    }
+	}
+
+	// function to generate random string
+	function generateRandomString($length = 10)
+	{
+	    $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+	    $charactersLength = strlen($characters);
+	    $randomString = '';
+
+	    for ($i = 0; $i < $length; $i++) 
+	    {
+	        $randomString .= $characters[rand(0, $charactersLength - 1)];
+	    }
+
+	    return $randomString;
+	}
+
+	// grab json obj from post (/scrapers/scraperHelpers.py)
+	print_r($jsonobj);
+
+	// download pictures from urls
+	foreach ($jsonobj['picture'] as &$value)
+	{
+		$picture = imageCreateFromFile($value);
+		$path = "/pictures/" . generateRandomString() . ".jpg";
+		while (file_exists($path))
+		{
+			$path = "/pictures/" . generateRandomString() . ".jpg";
+		}
+		imagejpeg($picture, $path);
+		$value = $path;
+	}
+	unset($value);
+
+	// connect to database
 	$mysqli = new mysqli('mysqlcluster9.registeredsite.com','pcsfloors','Padpimp1','padpimp');
 
 	if ($mysqli->connect_error) 
@@ -26,11 +84,13 @@
 	    die('Error : ('. $mysqli->connect_errno .') '. $mysqli->connect_error);
 	}
 
-	$query = "INSERT INTO Products VALUES(?, ?, ?, ?, ?, ?, ?, ?)";
+	// create query
+	$query = "INSERT INTO Products VALUES(?, ?, ?, ?, ?, ?, ?)";
 	$statement = $mysqli->prepare($query);
 
-	$statement->bind_param('sssssdss', $fields['name'], $fields['manufacturer'], $fields['type'], $fields['picture'], $fields['colors'], $fields['id'], $fields['description'], $fields['manurl']);
+	$statement->bind_param('sssssss', $jsonobj['name'], $jsonobj['manufacturer'], $jsonobj['type'], $jsonobj['picture'], $jsonobj['colors'], $jsonobj['description'], $jsonobj['manurl']);
 
+	// sumbit query
 	if($statement->execute())
 	{
     	print 'Success! ID of last inserted record is : ' .$statement->insert_id .'<br />'; 
@@ -39,7 +99,6 @@
 	{
     	die('Error : ('. $mysqli->errno .') '. $mysqli->error);
     }
-
 	$statement->close();
 
 ?>
