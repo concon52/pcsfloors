@@ -1,29 +1,20 @@
 <?php
 
-	// 	HTML Template
-	// $fields = array('name' => $_POST['name'], 
-	// 				'manufacturer' => $_POST['manufacturer'], 
-	// 				'type' => $_POST['type'], 
-	// 				'picture' => $_POST['picture'], 
-	// 				'colors' => $_POST['colors'], 
-	// 				'id' => $_POST['id'], 
-	// 				'description' => $_POST['description'], 
-	// 				'manurl' => $_POST['manurl']);
-
-	//	TEST
-	// $fields = array('name' => 'test1', 
-	// 				'manufacturer' => 'test2', 
-	// 				'type' => 'test3', 
-	// 				'picture' => 'test4', 
-	// 				'colors' => 'test5', 
-	// 				'id' => 100, 
-	// 				'description' => 'test7', 
-	// 				'manurl' => 'test8');
-
+	$filetype;
 
 	// function to grab picture from url
 	function imageCreateFromFile( $filename ) 
 	{
+		global $filetype;
+		if (strpos($filename, '?'))
+		{
+			$filetype = strtolower( array_pop( explode('.', substr($filename, 0, strpos($filename, '?')))));
+		}
+		else
+		{
+			$filetype = strtolower( array_pop( explode('.', $filename)));
+		}
+	    switch ($filetype)
 	    {
 	        case 'jpeg':
 	        case 'jpg':
@@ -36,6 +27,34 @@
 
 	        case 'gif':
 	            return imagecreatefromgif($filename);
+	        	break;
+
+	        default:
+	            throw new InvalidArgumentException('File "'.$filename.'" is not valid jpg, png or gif image.');
+	       		break;
+	    }
+	}
+
+	// function to output picture to save location
+	function imageOutputToFile( $filename, $path ) 
+	{
+		global $filetype;
+	    switch ($filetype)
+	    {
+	        case 'jpeg':
+	        case 'jpg':
+	         	header("Content-type: image/jpeg");
+	            return imagejpeg($filename, $path, 100);
+	        	break;
+
+	        case 'png':
+	        	header("Content-type: image/png");
+	            return imagepng($filename, $path, 100);
+	        	break;
+
+	        case 'gif':
+	         	header("Content-type: image/gif");
+	            return imagegif($filename, $path, 100);
 	        	break;
 
 	        default:
@@ -59,36 +78,37 @@
 	    return $randomString;
 	}
 
-	// grab json obj from post (/scrapers/scraperHelpers.py)
-	//$jsonobj = json_decode($_POST['json']);
 	$jsonobj = json_decode(file_get_contents('php://input'));
 	print_r($jsonobj);
 
 	// download pictures from urls
-	foreach ($jsonobj['picture'] as &$value)
+	foreach ($jsonobj->{'picture'} as &$value)
 	{
+		echo($value . "prestrip");
+		str_replace("&quot;", "", $value);
+		echo($value . "poststrip");
 		$picture = imageCreateFromFile($value);
 		$path = "/pictures/" . generateRandomString() . ".jpg";
 		while (file_exists($path))
 		{
-			$path = "/pictures/" . generateRandomString() . ".jpg";
+			$path = "pictures/" . generateRandomString() . ".jpg";
 		}
-		imagejpeg($picture, $path);
+		imageOutputToFile($picture, $path);
 		$value = $path;
 	}
 	unset($value);
 
-
-	foreach ($jsonobj['colors'] as &$value)
+	// download color pictures from urls
+	foreach ($jsonobj->{'colors'} as &$value)
 	{
-		$colorpicture = imageCreateFromFile($value['url']);
-		$colorpath = "/pictures/" . generateRandomString() . ".jpg";
+		$colorpicture = imageCreateFromFile($value->{'url'});
+		$colorpath = "pictures/" . generateRandomString() . ".jpg";
 		while (file_exists($colorpath))
 		{
 			$colorpath = "/pictures/" . generateRandomString() . ".jpg";
 		}
-		imagejpeg($colorpicture, $colorpath);
-		$value['url'] = $colorpath;
+		imageOutputToFile($colorpicture, $colorpath);
+		$value->{'url'} = $colorpath;
 	}
 	unset($value);
 
@@ -101,10 +121,11 @@
 	}
 
 	// create query
-	$query = "INSERT INTO Products VALUES(?, ?, ?, ?, ?, ?, ?)";
+	$query = "INSERT INTO Products (name, manufacturer, type, picture, colors, description, manurl) VALUES (?, ?, ?, ?, ?, ?, ?)";
 	$statement = $mysqli->prepare($query);
 
-	$statement->bind_param('sssssss', $jsonobj['name'], $jsonobj['manufacturer'], $jsonobj['type'], $jsonobj['picture'], $jsonobj['colors'], $jsonobj['description'], $jsonobj['manurl']);
+	var_dump($statement);
+	$statement->bind_param('sssssss', $jsonobj->{'name'}, $jsonobj->{'manufacturer'}, $jsonobj->{'type'}, json_encode($jsonobj->{'picture'}), json_encode($jsonobj->{'colors'}), $jsonobj->{'description'}, $jsonobj->{'manurl'});
 
 	// sumbit query
 	if($statement->execute())
