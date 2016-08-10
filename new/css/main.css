@@ -1555,3 +1555,7 @@ a.pp_close {
 	right: 10px;
 	top: 10px;
 }
+
+#returnbutton {
+	padding-top: 0px;
+}

@@ -1,8 +1,8 @@
 $(function () 
 {
-    $('#contact-form').on('submit', function (e) {
+    $('#query-form').on('submit', function (e) {
         if (!e.isDefaultPrevented()) {
-            var url = "queryTemplate.php";
+            var url = "databaseInsertTemplate.php";
 
             $.ajax({
                 type: "POST",
@@ -15,12 +15,15 @@ $(function ()
 
                     var alertBox = '<div class="alert ' + messageAlert + ' alert-dismissable"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>' + messageText + '</div>';
                     if (messageAlert && messageText) {
-                        $('#query-form').find('.messages').html(alertBox);
-                        $('#query-form')[0].reset();
+                        $('#queryInsert-form').find('.messages').html(alertBox);
+                        $('#queryInsert-form')[0].reset();
                     }
                 }
             });
             return false;
         }
     })
-});
+}
+
+
+

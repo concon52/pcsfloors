@@ -84,14 +84,12 @@
 	// download pictures from urls
 	foreach ($jsonobj->{'picture'} as &$value)
 	{
-		echo($value . "prestrip");
 		str_replace("&quot;", "", $value);
-		echo($value . "poststrip");
 		$picture = imageCreateFromFile($value);
-		$path = "/pictures/" . generateRandomString() . ".jpg";
+		$path = "pictures/" . generateRandomString() . "." . $filetype;
 		while (file_exists($path))
 		{
-			$path = "pictures/" . generateRandomString() . ".jpg";
+			$path = "pictures/" . generateRandomString() . "." . $filetype;
 		}
 		imageOutputToFile($picture, $path);
 		$value = $path;
@@ -102,10 +100,10 @@
 	foreach ($jsonobj->{'colors'} as &$value)
 	{
 		$colorpicture = imageCreateFromFile($value->{'url'});
-		$colorpath = "pictures/" . generateRandomString() . ".jpg";
+		$colorpath = "pictures/" . generateRandomString() . "." . $filetype;
 		while (file_exists($colorpath))
 		{
-			$colorpath = "/pictures/" . generateRandomString() . ".jpg";
+			$colorpath = "pictures/" . generateRandomString() . "." . $filetype;
 		}
 		imageOutputToFile($colorpicture, $colorpath);
 		$value->{'url'} = $colorpath;
