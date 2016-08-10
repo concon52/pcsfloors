@@ -87,7 +87,7 @@
 			    if (move_uploaded_file($_FILES["picture"]["tmp_name"][$key], $path)) 
 			    {
 			        //echo "The file " . basename( $_FILES["picture"]["name"][$key]) . " has been uploaded.";
-			        array_push($picarray, $path);			        
+			        array_push($picarray, $path);
 			    } 
 			    else 
 			    {

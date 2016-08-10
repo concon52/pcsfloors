@@ -9,6 +9,20 @@
 	}
 
 	$id = $_POST['id'];
+	$pics = "SELECT * FROM Products WHERE id = $id";
+	$result = mysqli_query($mysqli, $pics);
+	$row = mysqli_fetch_assoc($result);
+	$picarray = json_decode($row['picture']);
+	$colorarray = json_decode($row['colors']);
+
+	foreach ($picarray as $value) 
+	{
+		unlink($value);
+	}
+	foreach ($colorarray as $value)
+	{
+		unlink($value->{'url'});
+	}
 
 	// sql to delete a record
 	$sql = "DELETE FROM Products WHERE id=$id";
