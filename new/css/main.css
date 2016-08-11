@@ -1559,3 +1559,12 @@ a.pp_close {
 #returnbutton {
 	padding-top: 0px;
 }
+
+.outerPictureDiv {
+	display: flex;
+	justify-content: center;
+}
+
+.innerPictureDiv {
+	align-self: center;
+}

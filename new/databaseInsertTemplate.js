@@ -1,6 +1,6 @@
 $(function () 
 {
-    $('#query-form').on('submit', function (e) {
+    $('#queryInsert-form').on('submit', function (e) {
         if (!e.isDefaultPrevented()) {
             var url = "databaseInsertTemplate.php";
 

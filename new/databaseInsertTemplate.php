@@ -20,20 +20,53 @@
 	    return $randomString;
 	}
 
+	if(isset($_POST['identifier']))
+	{
+		// populate fields with POST
+		$fields = array('name' => $_POST['name'], 
+						'manufacturer' => $_POST['manufacturer'], 
+						'type' => $_POST['type'], 
+						'picture' => $_FILES['picture'], 
+						'id' => $_POST['id'], 
+						'description' => $_POST['description'], 
+						'manurl' => $_POST['manurl'],
+						'removedPictures' => $_POST['removedPictures'],
+						'removedColors' => $_POST['removeColors'],
+						'oldColors' => $_POST['oldColors'],
+						'oldPictures' => $_POST['oldPictures'],
+						'colornames' => $_POST['colornames']
+						);
+	}
+	else
+	{
+		// populate fields with POST
+		$fields = array('name' => $_POST['name'], 
+						'manufacturer' => $_POST['manufacturer'], 
+						'type' => $_POST['type'], 
+						'picture' => $_FILES['picture'], 
+						'id' => $_POST['id'], 
+						'description' => $_POST['description'], 
+						'manurl' => $_POST['manurl'],
+						'colornames' => $_POST['colornames']
+						);		
+	}
 
-	// populate fields with POST
-	$fields = array('name' => $_POST['name'], 
-					'manufacturer' => $_POST['manufacturer'], 
-					'type' => $_POST['type'], 
-					'picture' => $_FILES['picture'], 
-					'id' => $_POST['id'], 
-					'description' => $_POST['description'], 
-					'manurl' => $_POST['manurl']);
 
 	// declare arrays for FILES
 	$picarray = array();
 	$colorarray = array();
 
+	if(isset($_POST['identifier']))
+	{
+		foreach($fields['removedPictures'] as $value)
+		{
+			unlink($value);
+		}
+		foreach ($fields['removedColors'] as $value) 
+		{
+			unlink($value);
+		}
+	}
 
 
 	// Check if image file is a actual image or fake image
@@ -100,11 +133,9 @@
 	unset($value);
 
 
-
 	// Check if image file is a actual image or fake image
 	if ($_FILES['colors']["name"][0] != "" && $_POST['colorcodes'][0] == "")
 	{
-		echo "hello!!!!!";
 		$fields['colors'] = $_FILES['colors'];
 		// download color pictures from urls
 		foreach ($fields['colors']["error"] as $key => $error)
@@ -157,7 +188,7 @@
 				    if (move_uploaded_file($_FILES["colors"]["tmp_name"][$key], $path)) 
 				    {
 				        //echo "The file " . basename( $_FILES["colors"]["name"][$key]) . " has been uploaded.";
-				        array_push($colorarray, array("url" => $path));				        
+				        array_push($colorarray, array("name" => $fields['colornames'][$key], "url" => $path));				        
 				    } 
 				    else 
 				    {
@@ -183,7 +214,17 @@
 		$success = 0;
 	}
 
-
+	if(isset($_POST['identifier']))
+	{
+		foreach ($oldPictures as $value) 
+		{
+			array_push($picarray, $value);
+		}
+		foreach ($oldColors as $value) 
+		{
+			array_push($picarray, $value);
+		}
+	}
 
 	$mysqli = new mysqli('mysqlcluster9.registeredsite.com','pcsfloors','Padpimp1','padpimp');
 
@@ -201,7 +242,7 @@
 		$colorarray = json_encode($colorarray);
 		$fields['colors'] = json_encode($fields['colors']);
 
-		if ($_FILES['colors']["name"][0] != "" && $_POST['colorcodes'][0] != "")
+		if ($_FILES['colors']["name"][0] != "" && $_POST['colorcodes'][0] == "")
 		{
 			$statement->bind_param('sssssss', $fields['name'], $fields['manufacturer'], $fields['type'], $picarray, $colorarray, $fields['description'], $fields['manurl']);
 		}
@@ -212,8 +253,8 @@
 
 		if($statement->execute())
 		{
-			print 'Success! ID of last inserted record is : ' .$statement->insert_id .'<br />'; 
-			//header("Location: databaseSuccess.html");
+			//print 'Success! ID of last inserted record is : ' .$statement->insert_id .'<br />'; 
+			header("Location: databaseSuccess.html");
 		}
 		else
 		{

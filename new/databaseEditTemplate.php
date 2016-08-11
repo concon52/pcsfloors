@@ -128,13 +128,22 @@
 						            <div class="col-md-6">
 						                <div class="form-group">
 						                    <label for="form_picture">Picture *</label>
-						                    <input id="form_picture" type="file" name="picture[]" class="fileupload1" required="required" data-error="Pictures are required">
+						                    <input id="form_picture" type="file" name="picture[]" class="fileupload1">
 						                    <div class="help-block with-errors"></div>						                    
 						                </div>
 						            </div>
 					            	<div class="col-md-6">
-						            	<?php foreach($picarray as $value): ?>
-						            		<img style="width:100%" src=<?=$value;?>>
+						            	<?php foreach($picarray as $key => $value): ?>
+							            	<div class="row" id="<?php echo ("picture" . $key);?>">
+							            		<input type="hidden" name="oldPictures[]" value="<?=$value;?>">
+							            			<div class="col-md-10 outerPictureDiv">
+								            				<img style="height:100%" src=<?=$value;?>>						            		
+								            			<div class="col-md-2 innerPictureDiv">
+								            				<input type="button" value="Remove" class="btn btn-primary pictureButton" onclick='removePicture("#<?php echo ("picture" . $key);?>", "<?=$value;?>", "removedPictures")'>
+								            				</button>
+								            			</div>
+							            			</div>
+							            	</div>
 						            	<?php endforeach; ?>
 						            </div>
 						        </div>
@@ -146,27 +155,37 @@
 												<li><a data-toggle="tab" href="#colorcode">Color (Codes/Names)</a></li>
 											</ul>
 											<div class="tab-content">
-												<div class="form-group">
-													<div id="colorimages" class="tab-pane fade in active">
-									                    <input id="form_colors" type="file" name="colors[]" class="fileupload2" placeholder="Please enter colors"></input>
+												<div id="colorimages" class="tab-pane fade in active">
+													<div class="form-group">													
+									                    <input id="form_colors" type="file" name="colors[]" class="form-control-file fileupload2" placeholder="Please enter colors"></input>
+									                    <input id="form_colorname" type="text" name="colornames[]" class="form-control nameinput" placeholder="Name of color">
 									                    <div class="help-block with-errors"></div>
 													</div>
 												</div>
-												<div class="form-group">
-													<div id="colorcodes" class="tab-pane fade in">
+												<div id="colorcode" class="tab-pane fade in">
+													<div class="form-group">													
 									                    <input id="form_colorcodes" type="text" name="colorcodes[]" class="colorinput form-control" placeholder="Please enter color codes"></input>
 									                    <button type="button" class="colorbutton">Add another code</button>
 									                    <div class="help-block with-errors"></div>
 									                </div>
 								            	</div>
 											</div>		                							                
-						            </div>					        
+						            </div>					  
 					            	<div class="col-md-6">
-						            	<?php foreach($colorarray as $value): ?>
-						            		<img style="width:100%" src=<?=$value->{'url'};?>>
+						            	<?php foreach($colorarray as $key => $value): ?>
+						            		<div class="row" id="<?php echo ("color" . $key);?>">
+						            			<input type="hidden" name="oldColors[]" value="<?=$value->{'url'};?>">
+							            			<div class="col-md-10 outerPictureDiv">
+								            				<img style="height:100%" src=<?=$colorarray[$key]->{'url'};?>>						            		
+								            			<div class="col-md-2 innerPictureDiv">
+								            				<input type="button" value="Remove" class="btn btn-primary pictureButton" onclick='removePicture("#<?php echo ("color" . $key);?>", "<?=$value->{'url'};?>", "removedColors")'>								            				
+								            			</div>
+							            			</div>
+						            		</div>
 						            	<?php endforeach; ?>
 						            </div>
 					        	</div>
+					        	<br>
 						        <div class="row>">
 						            <div class="col-md-6">
 						                <div class="form-group">
@@ -204,6 +223,12 @@
 						        </div>
 						    </div>
 
+						    <div style="display:none;" id="removedPictures">
+						    </div>
+						    <div syle="display:none;">						    	
+						    	<input id="form_identifier" type"text" name="identifier" class="form-control" value="edit">
+						    </div>
+
 						</form>
                 </div>
             </div>
@@ -226,15 +251,14 @@
 	<script type="text/javascript" src="js/jquery.prettyPhoto.js"></script> 
 	<script type="text/javascript" src="js/jquery.parallax.js"></script> 
 	<script type="text/javascript" src="js/main.js"></script> 
-    <script src="validator.js"></script>
-    <script src="contact.js"></script>
+    <script type="text/javascript" src="databaseEditTemplate.js"></script> 
 </body>
 <script>
 	$('#queryEdit-form').delegate('input.fileupload1', 'change', function(){
-	  $('form input.fileupload1').last().after($('<input type="file" name="picture[]" class="fileupload1" />'));
+	  $('form input.fileupload1').last().after($('<input type="file" name="picture[]" class="form-control-file fileupload1" />'));
 	});
 	$('#queryEdit-form').delegate('input.fileupload2', 'change', function(){
-	  $('form input.fileupload2').last().after($('<input type="file" name="colors[]" class="fileupload2" />'));
+	  $('form input.nameinput').last().after($('<input type="file" name="colors[]" class="form-control-file fileupload2" /><input id="form_colorname" type="text" name="colornames[]" class="form-control nameinput" placeholder="Name of color" />'));
 	});
 	$('#queryEdit-form').delegate('button.colorbutton', 'click', function(){
 	  $('form input.colorinput').last().after($('<input id="form_colorcodes" type="text" name="colorcodes[]" class="colorinput form-control" placeholder="Please enter color codes" required="required" data-error="Valid color code is required." />'));

@@ -83,7 +83,7 @@
 				<div class="col-xs-12">
 					<h2 class="title-one"><?=$row['name']?></h2>
 					<div class="row">
-						<?php if (!empty($picarray)):?>
+						<?php if (!empty($picarray)): ?>
 						<div class="col-md-4 col-xs-12">
 							<img style="width:100%" src=<?=$picarray[0];?>>
 						</div>
