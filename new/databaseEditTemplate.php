@@ -93,7 +93,7 @@
                 <div class="col-lg-8 col-lg-offset-2">
                     <h1>Query form</h1>
                     <p class="lead">Edit product information</p>
-						<form id="queryInsert-form" method="post" action="databaseEditTemplate.php" role="form" enctype="multipart/form-data">
+						<form id="queryEdit-form" method="post" action="databaseEditTemplate.php" role="form" enctype="multipart/form-data">
 
 						    <div class="messages"></div>
 
@@ -138,6 +138,7 @@
 						            	<?php endforeach; ?>
 						            </div>
 						        </div>
+						        <br><br>
 						        <div class="row">
 						            <div class="col-md-6">						             
 						                    <ul class="nav nav-tabs">
@@ -159,15 +160,13 @@
 									                </div>
 								            	</div>
 											</div>		                							                
-						            </div>
-						        </div>
-						        <div class="row">
+						            </div>					        
 					            	<div class="col-md-6">
 						            	<?php foreach($colorarray as $value): ?>
 						            		<img style="width:100%" src=<?=$value->{'url'};?>>
 						            	<?php endforeach; ?>
 						            </div>
-						        </div>
+					        	</div>
 						        <div class="row>">
 						            <div class="col-md-6">
 						                <div class="form-group">
@@ -231,13 +230,13 @@
     <script src="contact.js"></script>
 </body>
 <script>
-	$('#query-form').delegate('input.fileupload1', 'change', function(){
+	$('#queryEdit-form').delegate('input.fileupload1', 'change', function(){
 	  $('form input.fileupload1').last().after($('<input type="file" name="picture[]" class="fileupload1" />'));
 	});
-	$('#query-form').delegate('input.fileupload2', 'change', function(){
+	$('#queryEdit-form').delegate('input.fileupload2', 'change', function(){
 	  $('form input.fileupload2').last().after($('<input type="file" name="colors[]" class="fileupload2" />'));
 	});
-	$('#query-form').delegate('button.colorbutton', 'click', function(){
+	$('#queryEdit-form').delegate('button.colorbutton', 'click', function(){
 	  $('form input.colorinput').last().after($('<input id="form_colorcodes" type="text" name="colorcodes[]" class="colorinput form-control" placeholder="Please enter color codes" required="required" data-error="Valid color code is required." />'));
 	});
 </script>
