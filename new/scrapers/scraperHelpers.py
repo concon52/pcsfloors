@@ -7,6 +7,20 @@ import json
 
 
 
+############# TO DO #############
+#
+######### van Gelder ############
+#
+### catch products where columns are empty while scraping for manual entry
+#
+### Get PDF files as additional Information
+#
+### Get all van Gelder product URLs
+
+
+
+
+
 def scrapeEverything(insertProducts = False, printProducts = True):
 	# scrape all Capri @ Home products
 	# url: http://www.capriathome.com/products.htm
@@ -20,8 +34,9 @@ def scrapeEverything(insertProducts = False, printProducts = True):
 
 	# scrape all custom tiles from 'Tile Gallery' on fritztile
 	# url: http://www.fritztile.com/fritz-products/custom-tile-gallery/
-	f = fritzTile()
-	f.scrapeProducts(insertProducts = insertProducts, printProducts = printProducts)
+	fc = fritzTileCustomTile()
+	fc.scrapeProducts(insertProducts = insertProducts, printProducts = printProducts)
+
 
 
 
@@ -57,12 +72,12 @@ class baseDomainSpecificScraperClass:
 	def getProductInfo(self, jsonEncode = False, indent = None):
 		#get all the things
 		r = {
-			'name' : formatStr(self.getTitle()),
-			'description' : formatStr(self.getDescription()),
+			'name' : self.formatStr(self.getTitle()),
+			'description' : self.formatStr(self.getDescription()),
 			'picture' : self.getProductPictureURLs(),
 			'colors' : self.getColors(),
-			'manufacturer' : formatStr(self.getManufacturer()),
-			'type' : formatStr(self.getFlooringType()),
+			'manufacturer' : self.formatStr(self.getManufacturer()),
+			'type' : self.formatStr(self.getFlooringType()),
 			'additionalInfo' : self.getAdditionalData(),
 			'manurl' : self.getManURL()
 		}
@@ -71,7 +86,7 @@ class baseDomainSpecificScraperClass:
 			return json.dumps(r, sort_keys = True, indent = indent)
 
 		return r
-
+		
 
 	# scrapes all products in self.productURLs
 	# if a newURLs array is provided, it will also scrape those URLs
@@ -219,15 +234,75 @@ class vanGelder(baseDomainSpecificScraperClass):
 					'css' : ''	
 				})
 
+		# # if we didn't find any color pictures, 
+		# if len(colors) == 0:
+		# 	# create a local copy of self.soup since we are going to remove some portions of html to make extracting the pictures we want easier
+		# 	soup = self.soup
+
+		# 	# remove p-header2
+		# 	for pheader in soup.findAll(class_ = "p-header2"):
+		# 		pheader.decompose()
+
+		# 	# remove #p-bodyarea* and .p-bodyarea*
+		# 	for pbodyarea in [soup.findAll(id = re.compile("^(p-bodyarea)")) + soup.findAll(class_ = re.compile("^(p-bodyarea)"))]:
+		# 		pbodyarea.decompose()
+
+		# 	for image in soup.find(id = "prod_content").findAll('img'):
+		# 		name = 
+		# 		if len(image.get('title')) > 0:
+
+
+		# 		colors.append({
+		# 			'url' : self.urlToAbsolute(image.get('src')),
+
+		# 		})
+
+
+
+
+		# 	colors.append({
+		# 		'url' : self.urlToAbsolute(self.soup.find(id='p-samples').find('img', recursive=False).get('src')),
+		# 		'name' : self.formatStr(self.soup.find('p', attrs = {'align' : 'right'}).text)
+		# 	})
+
 		return colors
 
 
 	def getManufacturer(self):
-		return "Fritztile"
+		return "van Gelder"
 
 
 	def getFlooringType(self):
-		return "tile"
+		vgType = [x for x in self.soup.find(id = "prod_nav_box").stripped_strings][0].lower()
+
+		if ('sheet' in vgType) or ('roll' in vgType):
+			return 'Sheet and Roll Goods'
+
+		elif 'carpet tile' in vgType:
+			return 'Carpet Tile'
+
+		elif 'vinyl' in vgType:
+			return 'Vinyl'
+
+		elif 'rubber' in vgType:
+			return 'Rubber'
+
+		elif 'grid' in vgType:
+			return 'Grid Systems'
+
+		elif 'industrial' in vgType or 'commercial' in vgType:
+			return 'Industrial and Commercial Matting'
+
+		elif 'slip' in vgType:
+			return 'Non-Slip'
+
+		elif 'custom' in vgType or 'logo' in vgType:
+			return 'Custom and Logo Matting'
+
+		else:
+			print('!!!!!!!!! ERROR: ' + vgType + ' uncaught !!!!!!!!!!!!!!!!!!')
+			return ''
+
 
 	def getAdditionalData(self):
 		pdfs = self.soup.find(class_ = 'orange').findAll('a')
