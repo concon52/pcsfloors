@@ -38,6 +38,8 @@
 	<link rel="apple-touch-icon-precomposed" sizes="114x114" href="images/ico/pcs_logo.png"> 
 	<link rel="apple-touch-icon-precomposed" sizes="72x72" href="images/ico/pcs_logo.png"> 
 	<link rel="apple-touch-icon-precomposed" href="images/ico/pcs_logo.png">
+	
+	<script type="text/javascript" src="js/jquery.js"></script> 
 </head><!--/head-->
 <body>
 <!-- 	<div class="preloader">
@@ -205,7 +207,6 @@
 		</div> 
 	</footer> <!--/#footer--> 
 
-	<script type="text/javascript" src="js/jquery.js"></script> 
 	<script type="text/javascript" src="js/bootstrap.min.js"></script>
 	<script type="text/javascript" src="js/jquery.isotope.min.js"></script>
 	<script type="text/javascript" src="js/jquery.prettyPhoto.js"></script> 
