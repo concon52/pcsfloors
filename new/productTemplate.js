@@ -8,13 +8,11 @@ $(document).ready(function () {
     });
 });
 
-$('.viewbutton').on('click', function() {
+$('.viewbutton, .xsviewbutton').on('click', function() {
    $('.imagepreview').attr('src', $(this).parent().find('img').attr('src')); 
    $('#imagenamefooter').text($(this).parent().parent().find('p').html());
    $('#imagemodal').modal('show');
 });
-
-
 
 function addcarouselitem(imgsrc, index)
 {

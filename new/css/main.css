@@ -1644,3 +1644,8 @@ a.pp_close {
 	left:22%;
 	opacity:0.75;
 }
+
+.boxshadow {
+   	box-shadow: 0 7px 1px -6px lightgray;
+   	padding-bottom: 20px;
+}

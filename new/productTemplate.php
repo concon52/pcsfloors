@@ -65,11 +65,11 @@
 				</div> 
 				<div class="collapse navbar-collapse"> 
 					<ul class="nav navbar-nav navbar-right"> 
-						<li class="scroll active"><a href="#navigation">Home</a></li>
+						<li class="scroll"><a href="#navigation">Home</a></li>
 						<li class="scroll"><a href="#about-us">About Us</a></li>
 						<li class="scroll"><a href="#portfolio">Portfolio</a></li> 
 						<li class="scroll"><a href="#clients">Testimonials</a></li>
-						<li><a href="catalog.html">Products</a></li> 
+						<li class="active"><a href="catalog.html">Products</a></li> 
 						<li><a href="contact.html">Contact</a></li>
 					</ul> 
 				</div> 
@@ -83,66 +83,73 @@
 			<div class="text-center">
 				<div class="col-xs-12">
 					<br><br>
-					<div class="row">
-					<h2 class="title-one"><?=$row['name']?></h2>
+					<div class="row boxshadow">
+						<h2 class="title-one"><?=$row['name']?></h2>
 					</div>	
 					<?php if (!empty($picarray)): ?>
-						<div class="col-md-6 col-xs-12">	
-							<div class="row">
-								<h2 class="title-two">Pictures</h2>
-								<div id="main-carousel" class="carousel slide" data-ride="carousel">
-								    <ol id="carouselList" class="carousel-indicators">
+						<div style="padding-top:20px;">
+							<div class="col-md-6 col-xs-12">	
+								<div class="row">
+									<h2 class="title-two">Pictures</h2>
+									<div id="main-carousel" class="carousel slide" data-ride="carousel">
+									    <ol id="carouselList" class="carousel-indicators">
 
-									</ol><!--/.carousel-indicators--> 
-									<div id="carouselInner" class="carousel-inner" role="listbox">
+										</ol><!--/.carousel-indicators--> 
+										<div id="carouselInner" class="carousel-inner" role="listbox">
 
-										<?php foreach($picarray as $key => $value): ?>
-											<script id="script<?=$key?>"> 
-												// var thisScript = document.currentScript
-												$(document).ready(function(){
-													addcarouselitem("<?=$picarray[$key];?>", "<?=$key;?>") 
-													// thisScript.remove()
-												})
-											</script>		
-										<?php endforeach; ?>
+											<?php foreach($picarray as $key => $value): ?>
+												<script id="script<?=$key?>"> 
+													// var thisScript = document.currentScript
+													$(document).ready(function(){
+														addcarouselitem("<?=$picarray[$key];?>", "<?=$key;?>") 
+														// thisScript.remove()
+													})
+												</script>		
+											<?php endforeach; ?>
+
+										</div>
+
+										<a class="left carousel-control" href="#main-carousel" role="button" data-slide="prev">
+											<span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
+											<span class="sr-only">Previous</span>
+										</a>
+										<a class="right carousel-control" href="#main-carousel" role="button" data-slide="next">
+											<span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+											<span class="sr-only">Next</span>
+										</a>
 
 									</div>
-
-									<a class="left carousel-control" href="#main-carousel" role="button" data-slide="prev">
-										<span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
-										<span class="sr-only">Previous</span>
-									</a>
-									<a class="right carousel-control" href="#main-carousel" role="button" data-slide="next">
-										<span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
-										<span class="sr-only">Next</span>
-									</a>
-
 								</div>
-							</div>
-						<?php if (!empty($colorarray)): ?>	
-							<div class="row">
-								<br><br>
-								<div class="text-center" align="left">
-									<h2 class="title-two">Description</h2>
-										<div class="col-xs-12" align="left">
-											<?=$row['description']?>
-										</div>
+							<?php if (!empty($colorarray)): ?>	
+								<div class="row">
+									<br><br>
+									<div class="text-center" align="left">
+										<h2 class="title-two">Description</h2>
+											<div class="col-xs-12" align="left">
+												<?=$row['description']?>
+											</div>
+									</div>
 								</div>
+							<?php endif?>
 							</div>
-						<?php endif?>
-					</div>
+						</div>
 					<?php if (!empty($colorarray)): ?>	
 						<div class="col-md-6 col-xs-12">
 							<h2 class="title-two">Colors</h2>
 							<div class="col-xs-12" style="overflow:auto; height:600px;">
 								<br><br>
 								<?php foreach($colorarray as $key => $value): ?>
-									<div class="col-xs-4 image-text pop">
-										<div class="effectfront">					
+									<div class="col-md-4 col-xs-12 image-text pop">
+										<div class="effectfront hidden-xs">					
 											<img vspace="5" hspace="15" class="imageresource" style="width:80%; height:80%" src=<?=$colorarray[$key]->{'url'};?>>										
 											<button type="button" class="btn-primary orderbutton" style="display:none;">Order Sample</button>
 											<button type="button" class="btn-primary viewbutton" style="display:none;">View Image</button>
 										</div>
+										<div class="visible-xs">		
+											<div class="row">		
+												<img vspace="5" hspace="15" class="imageresource xsviewbutton" style="width:80%; height:80%" src=<?=$colorarray[$key]->{'url'};?>>										
+											</div>
+										</div>										
 										<p class="color-name"><?=$colorarray[$key]->{'name'};?></p>
 									</div>
 								<?php endforeach; ?>
@@ -160,12 +167,14 @@
 						<?php endif?>
 						<?php else: ?>
 							<?php if (!empty($colorarray)): ?>	
-							<div class="col-md-6 col-xs-12">
-								<div class="text-center" align="left">
-									<h2 class="title-two">Description</h2>
-										<div class="col-xs-12" align="left">
-											<?=$row['description']?>
-										</div>
+							<div style="padding-top:20px;">
+								<div class="col-md-6 col-xs-12">
+									<div class="text-center" align="left">
+										<h2 class="title-two">Description</h2>
+											<div class="col-xs-12" align="left">
+												<?=$row['description']?>
+											</div>
+									</div>
 								</div>
 							</div>
 							<div class="col-md-6 col-xs-12">
@@ -201,6 +210,7 @@
 				</div>
 				<div class="modal-footer">
 					<p id="imagenamefooter" class="text-center"></p>
+					<button type="button" class="btn btn-primary" style="float:left;">Add Sample to Cart</button>
 					<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
 				</div>
 			</div>
