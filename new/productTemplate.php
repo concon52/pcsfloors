@@ -131,8 +131,8 @@
 									</div>
 								</div>
 							<?php endif?>
-							</div>
 						</div>
+					</div>
 					<?php if (!empty($colorarray)): ?>	
 						<div class="col-md-6 col-xs-12">
 							<h2 class="title-two">Colors</h2>
@@ -247,6 +247,7 @@
 	<script type="text/javascript" src="js/jquery.parallax.js"></script> 
 	<script type="text/javascript" src="js/main.js"></script> 
 	<script type="text/javascript" src="productTemplate.js"></script> 
+	<script type="text/javascript" src="js/jquery.cookie.js"></script>
 
 </body>
 
