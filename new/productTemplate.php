@@ -88,13 +88,38 @@
 					<div class="row">
 						<?php if (!empty($picarray)): ?>
 							<div class="col-md-6 col-xs-12">
-							<h2 class="title-two">Pictures</h2>
-							<?php foreach($picarray as $key => $value): ?>
-								<div class="col-xs-12">
-									<img vspace="15" style="width:100%" src=<?=$picarray[$key];?>>				
+								<h2 class="title-two">Pictures</h2>
+								<div id="main-carousel" class="carousel slide" data-ride="carousel">
+								    <ol id="carouselList" class="carousel-indicators">
+
+									</ol><!--/.carousel-indicators--> 
+									<div id="carouselInner" class="carousel-inner" role="listbox">
+
+										<?php foreach($picarray as $key => $value): ?>
+											<script id="script<?=$key?>"> 
+												// var thisScript = document.currentScript
+
+												$(document).ready(function(){
+													addcarouselitem("<?=$picarray[$key];?>", "<?=$key;?>") 
+
+													// thisScript.remove()
+												})
+											</script>		
+										<?php endforeach; ?>
+
+									</div>
+
+									<a class="left carousel-control" href="#main-carousel" role="button" data-slide="prev">
+										<span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
+										<span class="sr-only">Previous</span>
+									</a>
+									<a class="right carousel-control" href="#main-carousel" role="button" data-slide="next">
+										<span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+										<span class="sr-only">Next</span>
+									</a>
+
 								</div>
-							<?php endforeach; ?>
-						</div>
+							</div>
 						<?php if (!empty($colorarray)): ?>	
 						<div class="col-md-6 col-xs-12">
 							<h2 class="title-two">Colors</h2>
