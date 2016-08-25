@@ -99,9 +99,14 @@
 						<div class="col-md-6 col-xs-12">
 							<h2 class="title-two">Colors</h2>
 							<div class="col-xs-12" style="overflow:auto; height:600px;">
+								<br><br>
 								<?php foreach($colorarray as $key => $value): ?>
-									<div class="col-xs-4 image-text pop">							
-										<img vspace="5" hspace="15" class="effectfront imageresource" style="width:80%; height:80%" src=<?=$colorarray[$key]->{'url'};?>>
+									<div class="col-xs-4 image-text pop">
+										<div class="effectfront">					
+											<img vspace="5" hspace="15" class="imageresource" style="width:80%; height:80%" src=<?=$colorarray[$key]->{'url'};?>>										
+											<button type="button" class="btn-primary orderbutton" style="display:none;">Order Sample</button>
+											<button type="button" class="btn-primary viewbutton" style="display:none;">View Image</button>
+										</div>
 										<p class="color-name"><?=$colorarray[$key]->{'name'};?></p>
 									</div>
 								<?php endforeach; ?>
@@ -184,13 +189,5 @@
 	<script type="text/javascript" src="productTemplate.js"></script> 
 
 </body>
-
-<script>
-	$('.pop').on('click', function() {
-	   $('.imagepreview').attr('src', $(this).find('img').attr('src')); 
-	   $('#imagenamefooter').text($(this).find('p').html());
-	   $('#imagemodal').modal('show');
-	});
-</script>
 
 </html>

@@ -1619,3 +1619,28 @@ a.pp_close {
 	margin-right:15px; 
 	margin-bottom:0px;
 }
+
+.pop {
+	display:inline-block;
+	position:relative;
+}
+
+.viewbutton {
+	font-size:10px;
+	width:80px;
+	height:20px;
+	position:absolute;
+	bottom:20%;
+	left:22%;
+	opacity:0.75;
+}
+
+.orderbutton {
+	font-size:10px;
+	width:80px;
+	height:20px;
+	position:absolute;
+	bottom:60%;
+	left:22%;
+	opacity:0.75;
+}
