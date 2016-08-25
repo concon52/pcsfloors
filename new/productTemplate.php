@@ -38,7 +38,6 @@
 	<link rel="apple-touch-icon-precomposed" sizes="114x114" href="images/ico/pcs_logo.png"> 
 	<link rel="apple-touch-icon-precomposed" sizes="72x72" href="images/ico/pcs_logo.png"> 
 	<link rel="apple-touch-icon-precomposed" href="images/ico/pcs_logo.png">
-	
 	<script type="text/javascript" src="js/jquery.js"></script> 
 </head><!--/head-->
 <body>
@@ -86,10 +85,10 @@
 					<br><br>
 					<div class="row">
 					<h2 class="title-one"><?=$row['name']?></h2>
-					</div>
-					<div class="row">
-						<?php if (!empty($picarray)): ?>
-							<div class="col-md-6 col-xs-12">
+					</div>	
+					<?php if (!empty($picarray)): ?>
+						<div class="col-md-6 col-xs-12">	
+							<div class="row">
 								<h2 class="title-two">Pictures</h2>
 								<div id="main-carousel" class="carousel slide" data-ride="carousel">
 								    <ol id="carouselList" class="carousel-indicators">
@@ -100,10 +99,8 @@
 										<?php foreach($picarray as $key => $value): ?>
 											<script id="script<?=$key?>"> 
 												// var thisScript = document.currentScript
-
 												$(document).ready(function(){
 													addcarouselitem("<?=$picarray[$key];?>", "<?=$key;?>") 
-
 													// thisScript.remove()
 												})
 											</script>		
@@ -123,6 +120,18 @@
 								</div>
 							</div>
 						<?php if (!empty($colorarray)): ?>	
+							<div class="row">
+								<br><br>
+								<div class="text-center" align="left">
+									<h2 class="title-two">Description</h2>
+										<div class="col-xs-12" align="left">
+											<?=$row['description']?>
+										</div>
+								</div>
+							</div>
+						<?php endif?>
+					</div>
+					<?php if (!empty($colorarray)): ?>	
 						<div class="col-md-6 col-xs-12">
 							<h2 class="title-two">Colors</h2>
 							<div class="col-xs-12" style="overflow:auto; height:600px;">
@@ -141,33 +150,42 @@
 						</div>
 						<? else: ?>
 							<div class="col-md-6 col-xs-12">
-								<h2 class="title-two">Colors</h2>
-								<div class="col-xs-12">
-									<p>There are no colors to display for this product.</p>
+								<div class="text-center" align="left">
+									<h2 class="title-two">Description</h2>
+										<div class="col-xs-12" align="left">
+											<?=$row['description']?>
+										</div>
 								</div>
 							</div>
 						<?php endif?>
 						<?php else: ?>
 							<?php if (!empty($colorarray)): ?>	
-							<div class="col-xs-12">
+							<div class="col-md-6 col-xs-12">
+								<div class="text-center" align="left">
+									<h2 class="title-two">Description</h2>
+										<div class="col-xs-12" align="left">
+											<?=$row['description']?>
+										</div>
+								</div>
+							</div>
+							<div class="col-md-6 col-xs-12">
 								<h2 class="title-two">Colors</h2>
-								<div class="col-xs-12">
+								<div class="col-xs-12" style="overflow:auto; height:600px;">
+									<br><br>
 									<?php foreach($colorarray as $key => $value): ?>
-										<div class="col-md-4 pop">											
-											<img class="effectfront imageresource" vspace="15" hspace="15" style="width:70%; height:70%" src=<?=$colorarray[$key]->{'url'};?>>					
+										<div class="col-xs-4 image-text pop">
+											<div class="effectfront">					
+												<img vspace="5" hspace="15" class="imageresource" style="width:80%; height:80%" src=<?=$colorarray[$key]->{'url'};?>>										
+												<button type="button" class="btn-primary orderbutton" style="display:none;">Order Sample</button>
+												<button type="button" class="btn-primary viewbutton" style="display:none;">View Image</button>
+											</div>
+											<p class="color-name"><?=$colorarray[$key]->{'name'};?></p>
 										</div>
 									<?php endforeach; ?>
 								</div>
 							</div>
 							<?php endif?>
 						<?php endif?>
-					</div>
-					<br><br>
-					<div class="col-xs-12 text-center" align="left">
-						<h2 class="title-two">Description</h2>
-							<div class="col-xs-12" align="left">
-								<?=$row['description']?>
-							</div>
 					</div>
 				</div>
 			</div>
@@ -207,6 +225,7 @@
 		</div> 
 	</footer> <!--/#footer--> 
 
+	
 	<script type="text/javascript" src="js/bootstrap.min.js"></script>
 	<script type="text/javascript" src="js/jquery.isotope.min.js"></script>
 	<script type="text/javascript" src="js/jquery.prettyPhoto.js"></script> 
@@ -217,3 +236,9 @@
 </body>
 
 </html>
+
+
+
+
+
+
