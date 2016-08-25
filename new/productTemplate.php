@@ -182,11 +182,16 @@
 								<div class="col-xs-12" style="overflow:auto; height:600px;">
 									<br><br>
 									<?php foreach($colorarray as $key => $value): ?>
-										<div class="col-xs-4 image-text pop">
-											<div class="effectfront">					
+										<div class="col-md-4 col-xs-12 image-text pop">
+											<div class="effectfront hidden-xs">					
 												<img vspace="5" hspace="15" class="imageresource" style="width:80%; height:80%" src=<?=$colorarray[$key]->{'url'};?>>										
 												<button type="button" class="btn-primary orderbutton" style="display:none;">Order Sample</button>
 												<button type="button" class="btn-primary viewbutton" style="display:none;">View Image</button>
+											</div>
+											<div class="visible-xs">		
+												<div class="row">		
+													<img vspace="5" hspace="15" class="imageresource xsviewbutton" style="width:80%; height:80%" src=<?=$colorarray[$key]->{'url'};?>>										
+												</div>
 											</div>
 											<p class="color-name"><?=$colorarray[$key]->{'name'};?></p>
 										</div>
