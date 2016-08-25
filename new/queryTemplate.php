@@ -2,6 +2,8 @@
 
 	$filetype;
 
+	ini_set("user_agent", 'Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/52.0.2743.116 Safari/537.36');
+
 	// function to grab picture from url
 	function imageCreateFromFile( $filename ) 
 	{
@@ -14,6 +16,7 @@
 		{
 			$filetype = strtolower( array_pop( explode('.', $filename)));
 		}
+
 	    switch ($filetype)
 	    {
 	        case 'jpeg':
@@ -22,6 +25,7 @@
 	        	break;
 
 	        case 'png':
+	        	echo "\n\n\n" . $filetype . "\n\n\n";
 	            return imagecreatefrompng($filename);
 	        	break;
 
@@ -36,25 +40,24 @@
 	}
 
 	// function to output picture to save location
-	function imageOutputToFile( $filename, $path ) 
+	function imageOutputToFile( $filename, $path, $type ) 
 	{
-		global $filetype;
-	    switch ($filetype)
+	    switch ($type)
 	    {
 	        case 'jpeg':
 	        case 'jpg':
-	         	header("Content-type: image/jpeg");
+	         	header('Content-Type: image/jpeg');
 	            return imagejpeg($filename, $path, 100);
 	        	break;
 
 	        case 'png':
-	        	header("Content-type: image/png");
-	            return imagepng($filename, $path, 100);
+	        	header('Content-Type: image/png');
+	            return imagepng($filename, $path, 0);
 	        	break;
 
 	        case 'gif':
-	         	header("Content-type: image/gif");
-	            return imagegif($filename, $path, 100);
+	         	header('Content-Type: image/gif');
+	            return imagegif($filename, $path);
 	        	break;
 
 	        default:
@@ -91,7 +94,7 @@
 		{
 			$path = "pictures/" . generateRandomString() . "." . $filetype;
 		}
-		imageOutputToFile($picture, $path);
+		imageOutputToFile($picture, $path, $filetype);
 		$value = $path;
 	}
 	unset($value);
@@ -105,7 +108,7 @@
 		{
 			$colorpath = "pictures/" . generateRandomString() . "." . $filetype;
 		}
-		imageOutputToFile($colorpicture, $colorpath);
+		imageOutputToFile($colorpicture, $colorpath, $filetype);
 		$value->{'url'} = $colorpath;
 	}
 	unset($value);

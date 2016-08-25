@@ -93,7 +93,7 @@
                 <div class="col-lg-8 col-lg-offset-2">
                     <h1>Query form</h1>
                     <p class="lead">Edit product information</p>
-						<form id="queryEdit-form" method="post" action="databaseEditTemplate.php" role="form" enctype="multipart/form-data">
+						<form id="queryEdit-form" method="post" action="databaseInsertTemplate.php" role="form" enctype="multipart/form-data">
 
 						    <div class="messages"></div>
 
@@ -158,7 +158,7 @@
 												<div id="colorimages" class="tab-pane fade in active">
 													<div class="form-group">													
 									                    <input id="form_colors" type="file" name="colors[]" class="form-control-file fileupload2" placeholder="Please enter colors"></input>
-									                    <input id="form_colorname" type="text" name="colornames[]" class="form-control nameinput" placeholder="Name of color">
+									                    <input id="form_colorname" type="text" name="colornames[]" class="form-control nameinput" placeholder="Name of color"></input>
 									                    <div class="help-block with-errors"></div>
 													</div>
 												</div>
@@ -214,7 +214,7 @@
 						            </div>
 						        </div>
 						            <div class="col-md-12">
-						                <input type="submit" class="btn btn-success btn-send" value="Insert Product">
+						                <input type="submit" class="btn btn-success btn-send" value="Update Product">
 						            </div>
 						        <div class="row">
 						            <div class="col-md-12"><br>
@@ -226,7 +226,7 @@
 						    <div style="display:none;" id="removedPictures">
 						    </div>
 						    <div syle="display:none;">						    	
-						    	<input id="form_identifier" type"text" name="identifier" class="form-control" value="edit">
+						    	<input id="form_identifier" type="hidden" name="identifier" class="form-control" value="edit">
 						    </div>
 
 						</form>

@@ -40,7 +40,7 @@
 	<link rel="apple-touch-icon-precomposed" href="images/ico/pcs_logo.png">
 </head><!--/head-->
 <body>
-	<div class="preloader">
+<!-- 	<div class="preloader">
 		<div class="preloder-wrap">
 			<div class="preloder-inner"> 
 				<div class="ball"></div> 
@@ -52,7 +52,7 @@
 				<div class="ball"></div>
 			</div>
 		</div>
-	</div><!--/.preloader-->
+	</div>-->
 	<header id="navigation"> 
 		<div class="navbar navbar-inverse navbar-fixed-top" role="banner"> 
 			<div class="container"> 
@@ -77,27 +77,86 @@
 	</header> <!--/#navigation--> 
 
 
-	<section id="about-us">
+	<section id="product-template">
 		<div class="container">
 			<div class="text-center">
 				<div class="col-xs-12">
+					<br><br>
+					<div class="row">
 					<h2 class="title-one"><?=$row['name']?></h2>
+					</div>
 					<div class="row">
 						<?php if (!empty($picarray)): ?>
-						<div class="col-md-4 col-xs-12">
-							<img style="width:100%" src=<?=$picarray[0];?>>
+							<div class="col-md-6 col-xs-12">
+							<h2 class="title-two">Pictures</h2>
+							<?php foreach($picarray as $key => $value): ?>
+								<div class="col-xs-12">
+									<img vspace="15" style="width:100%" src=<?=$picarray[$key];?>>				
+								</div>
+							<?php endforeach; ?>
 						</div>
+						<?php if (!empty($colorarray)): ?>	
+						<div class="col-md-6 col-xs-12">
+							<h2 class="title-two">Colors</h2>
+							<div class="col-xs-12" style="overflow:auto; height:600px;">
+								<?php foreach($colorarray as $key => $value): ?>
+									<div class="col-xs-4 image-text pop">							
+										<img vspace="5" hspace="15" class="effectfront imageresource" style="width:80%; height:80%" src=<?=$colorarray[$key]->{'url'};?>>
+										<p class="color-name"><?=$colorarray[$key]->{'name'};?></p>
+									</div>
+								<?php endforeach; ?>
+							</div>
+						</div>
+						<? else: ?>
+							<div class="col-md-6 col-xs-12">
+								<h2 class="title-two">Colors</h2>
+								<div class="col-xs-12">
+									<p>There are no colors to display for this product.</p>
+								</div>
+							</div>
 						<?php endif?>
-						<div class="col-md-4 col-xs-12">
-							<img style="width:100%" src=<?=$colorarray[0]->{'url'};?>>
-						</div>
-						<div class="col-md-8 col-xs-12">
-							<?=$row['description']?>
-						</div>
+						<?php else: ?>
+							<?php if (!empty($colorarray)): ?>	
+							<div class="col-xs-12">
+								<h2 class="title-two">Colors</h2>
+								<div class="col-xs-12">
+									<?php foreach($colorarray as $key => $value): ?>
+										<div class="col-md-4 pop">											
+											<img class="effectfront imageresource" vspace="15" hspace="15" style="width:70%; height:70%" src=<?=$colorarray[$key]->{'url'};?>>					
+										</div>
+									<?php endforeach; ?>
+								</div>
+							</div>
+							<?php endif?>
+						<?php endif?>
+					</div>
+					<br><br>
+					<div class="col-xs-12 text-center" align="left">
+						<h2 class="title-two">Description</h2>
+							<div class="col-xs-12" align="left">
+								<?=$row['description']?>
+							</div>
 					</div>
 				</div>
 			</div>
 		</div>
+
+	<div class="modal fade" id="imagemodal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-body text-center">
+					<button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+					<br><br>
+					<img src="" class="imagepreview" style="width:100%;">
+				</div>
+				<div class="modal-footer">
+					<p id="imagenamefooter" class="text-center"></p>
+					<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+				</div>
+			</div>
+		</div>
+	</div>
+
 	</section><!--/#about-us-->
 
 	<div id="colorpicker1">
@@ -118,12 +177,20 @@
 
 	<script type="text/javascript" src="js/jquery.js"></script> 
 	<script type="text/javascript" src="js/bootstrap.min.js"></script>
-	<script type="text/javascript" src="js/smoothscroll.js"></script> 
 	<script type="text/javascript" src="js/jquery.isotope.min.js"></script>
 	<script type="text/javascript" src="js/jquery.prettyPhoto.js"></script> 
 	<script type="text/javascript" src="js/jquery.parallax.js"></script> 
 	<script type="text/javascript" src="js/main.js"></script> 
-
+	<script type="text/javascript" src="productTemplate.js"></script> 
 
 </body>
+
+<script>
+	$('.pop').on('click', function() {
+	   $('.imagepreview').attr('src', $(this).find('img').attr('src')); 
+	   $('#imagenamefooter').text($(this).find('p').html());
+	   $('#imagemodal').modal('show');
+	});
+</script>
+
 </html>
