@@ -1,3 +1,43 @@
+<?php
+	
+	// connect to database
+	$mysqli = new mysqli('mysqlcluster9.registeredsite.com','pcsfloors','Padpimp1','padpimp');
+
+	if ($mysqli->connect_error) 
+	{
+	    die('Error : ('. $mysqli->connect_errno .') '. $mysqli->connect_error);
+	}
+
+	$man = $_GET['man'];
+	$query = "SELECT * FROM Products WHERE manufacturer = '$man' ORDER BY type";
+	$result = mysqli_query($mysqli, $query);
+	$products = array();
+
+
+	if ($result)
+	{
+		while ($row = mysqli_fetch_assoc($result))
+		{
+			$temppic = json_decode($row['picture']);
+			$tempcolor = json_decode($row['colors']);
+			$temptype = $row['type'];
+			$tempname = $row['name'];
+			$tempid = $row['id'];
+
+			if (empty($temppic))
+			{
+				array_push($products, array("thumbnail" => $tempcolor[0]->{'url'}, "type" => $temptype, "name" => $tempname, "id" => $tempid));
+			}
+			else
+			{
+				array_push($products, array("thumbnail" => $temppic[0], "type" => $temptype, "name" => $tempname, "id" => $tempid));
+			}
+			
+		}
+	}
+?>
+
+
 <!DOCTYPE html>
 <html lang="en">
 <head> 
@@ -21,19 +61,6 @@
 	<link rel="apple-touch-icon-precomposed" href="images/ico/pcs_logo.png">
 </head><!--/head-->
 <body>
-	<div class="preloader">
-		<div class="preloder-wrap">
-			<div class="preloder-inner"> 
-				<div class="ball"></div> 
-				<div class="ball"></div> 
-				<div class="ball"></div> 
-				<div class="ball"></div> 
-				<div class="ball"></div> 
-				<div class="ball"></div> 
-				<div class="ball"></div>
-			</div>
-		</div>
-	</div><!--/.preloader-->
 	<header id="navigation"> 
 		<div class="navbar navbar-inverse navbar-fixed-top" role="banner">
 			<div class="container"> 
@@ -47,37 +74,45 @@
 					<ul class="nav navbar-nav navbar-right"> 
 						<li class="scroll"><a href="index.html">Home</a></li>
 						<li class="scroll"><a href="index.html">About Us</a></li>						
-<!-- 						<li class="scroll"><a href="index.html">Portfolio</a></li>  -->
-						<li class="scroll"><a href="index.html">Testimonials</a></li>
-						<li><a href="productMenu.php">Products</a></li> 
-						<li class="scroll active"><a href="contact.html">Contact</a></li>
+<!-- 						<li class="scroll"><a href="index.html">Portfolio</a></li> 
+ -->						<li class="scroll"><a href="index.html">Testimonials</a></li>
+						<li class="scroll active"><a href="productMenu.php">Products</a></li> 
+						<li class="scroll"><a href="contact.html">Contact</a></li>
 					</ul> 
 				</div> 
 			</div> 
 		</div><!--/navbar--> 
-	</header> <!--/#navigation--> 
+	</header> <!--/#navigation--> 		
 
-	<section id="contactInformation">
-		<div class="container">
-			<div class="text-center">
-				<div class="col-sm-8 col-sm-offset-2" style="margin-top:75px;">
-					<h2 class="title-one animated bounceInLeft">Operation was successful!</h2>
-				</div>
-			</div>
-		</div>
-	</section>
-
-	<section id="returnbutton">
-        <div class="container">
-            <div class="row text-center">
+	<section id="products">
+        <div class="container" id="productmenutitle">
+        	<div class="row text-center">
+        		<h2 class="title-one animated bounceInLeft">Products</h2>
+        		<p id="manufacturer">By <?=$man?></p>
+        		<p>
+        			<a href="productMenu.php" id="manufacturer">Back To Flooring Types</a>
+        		</p>
+        		<p>
+        			<a href="productMenuMan.html" id="manufacturer">Back To Flooring Manufacturers</a>
+        		</p>
+        	</div>
                 <div class="col-lg-8 col-lg-offset-2">
-                    <p class="lead">
-                    	<a href="databaseOptions.html">
-  							<button type="button" class="btn btn-primary">Continue editing database</button>
-						</a>
-					</p>
+                   	<?php foreach($products as $key => $value): ?>
+                   		<?php if ($products[$key]["type"] != $products[$key-1]["type"] || $key == 0) : ?>
+                   			<div class="col-lg-12 typetitle">
+                   				<h2 style="text-transform:capitalize"><?php echo $products[$key]["type"]; ?></h2>
+                   			</div>
+                   		<?php endif ?>
+							<div class="col-lg-4 <?php echo $products[$key]["id"]; ?>">
+								<div class="row text-center">
+									<img src="<?php echo $products[$key]["thumbnail"]; ?>" class="img-thumbnail" alt="No Image Available" width="200" height="200">
+								</div>
+								<div class="row text-center" id="productname">
+									<a href="<?php echo "productTemplate.php?id=" . $products[$key]["id"]; ?>" style="text-transform:capitalize"><?php echo $products[$key]["name"]; ?></a>
+								</div>
+							</div>
+					<?php endforeach; ?>
                 </div>
-            </div>
         </div>
 	</section>
 
@@ -97,7 +132,7 @@
 	<script type="text/javascript" src="js/jquery.prettyPhoto.js"></script> 
 	<script type="text/javascript" src="js/jquery.parallax.js"></script> 
 	<script type="text/javascript" src="js/main.js"></script> 
-    <script src="validator.js"></script>
-    <script src="contact.js"></script>
+    <script type="text/javascript" src="databaseEditTemplate.js"></script> 
 </body>
 </html>
+

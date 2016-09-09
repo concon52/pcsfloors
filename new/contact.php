@@ -1,7 +1,7 @@
 <?php
 
 $from = 'Contact form from PCS Website <info@pcsdistributors.com>';
-$sendTo = 'info <fifasoccer8@gmail.com>';
+$sendTo = 'info <info@pcsdistributors.com>';
 $subject = 'New message from pcsdistributors.com';
 $fields = array('name' => 'Customer name', 'surname' => 'Surname', 'phone' => 'Phone', 'email' => 'Email', 'message' => 'Message');
 

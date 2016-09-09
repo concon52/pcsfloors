@@ -77,7 +77,7 @@
 					<ul class="nav navbar-nav navbar-right"> 
 						<li class="scroll"><a href="index.html">Home</a></li>
 						<li class="scroll"><a href="index.html">About Us</a></li>						
-						<li class="scroll"><a href="index.html">Portfolio</a></li> 
+<!-- 						<li class="scroll"><a href="index.html">Portfolio</a></li> --> 
 						<li class="scroll"><a href="index.html">Testimonials</a></li>
 						<li class="scroll active"><a href="productMenu.php">Products</a></li> 
 						<li class="scroll"><a href="contact.html">Contact</a></li>
@@ -91,6 +91,9 @@
         <div class="container" id="productmenutitle">
         	<div class="row text-center">
         		<h2 class="title-one animated bounceInLeft">Products</h2>
+        		<p>
+        			<a href="productMenuMan.html" id="manufacturer">Browse By Manufacturer</a>
+        		</p>
         	</div>
                 <div class="col-lg-8 col-lg-offset-2">
                 	<?php foreach($products as $key => $value): ?>

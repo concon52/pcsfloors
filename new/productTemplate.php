@@ -75,8 +75,8 @@
 					<ul class="nav navbar-nav navbar-right"> 
 						<li class="scroll"><a href="#navigation">Home</a></li>
 						<li class="scroll"><a href="#about-us">About Us</a></li>
-						<li class="scroll"><a href="#portfolio">Portfolio</a></li> 
-						<li class="scroll"><a href="#clients">Testimonials</a></li>
+<!-- 						<li class="scroll"><a href="#portfolio">Portfolio</a></li> 
+ -->						<li class="scroll"><a href="#clients">Testimonials</a></li>
 						<li class="active"><a href="productMenu.php">Products</a></li> 
 						<li><a href="contact.html">Contact</a></li>
 					</ul> 
@@ -94,6 +94,12 @@
 					<div class="row boxshadow">
 						<h2 class="title-one"><?=$row['name']?></h2>
 						<p id="manufacturer">By <?=$manufacturer?></p>
+		        		<p>
+		        			<a href="productMenu.php" id="manufacturer">Back To Flooring Types</a>
+		        		</p>
+		        		<p>
+		        			<a href="productMenuMan.html" id="manufacturer">Back To Flooring Manufacturers</a>
+		        		</p>						
 					</div>	
 					<?php if (!empty($picarray)): ?>
 						<div style="padding-top:20px;">
