@@ -77,7 +77,7 @@
 						<li class="scroll"><a href="#about-us">About Us</a></li>
 						<li class="scroll"><a href="#portfolio">Portfolio</a></li> 
 						<li class="scroll"><a href="#clients">Testimonials</a></li>
-						<li class="active"><a href="catalog.html">Products</a></li> 
+						<li class="active"><a href="productMenu.php">Products</a></li> 
 						<li><a href="contact.html">Contact</a></li>
 					</ul> 
 				</div> 
