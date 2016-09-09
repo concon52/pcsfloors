@@ -15,29 +15,29 @@ import copy
 
 headers = {'user-agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_10_5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/51.0.2704.103 Safari/537.36'}
 
-def scrapeEverything(insertProducts = False, printProducts = True):
+def scrapeEverything(insertProducts = False, insertProductsWithErrors = False, printProducts = True, printProductErrors = True):
 	# scrape all Capri @ Home products
 	# url: http://www.capriathome.com/products.htm
 	ca = capriAtHome()
-	ca.scrapeProducts(insertProducts = insertProducts, printProducts = printProducts)
+	ca.scrapeProducts(scrapeCurrentURL = False, insertProducts = insertProducts, insertProductsWithErrors = insertProductsWithErrors, printProducts = printProducts, printProductErrors = printProductErrors)
 
 	# scrape all tiles from 'Tile Gallery' on Fritztile
 	# url: http://www.fritztile.com/fritz-products/tile-gallery/classic-terrazzo-collection/c520515/
 	f = fritzTile()
-	f.scrapeProducts(insertProducts = insertProducts, printProducts = printProducts)
+	f.scrapeProducts(insertProducts = insertProducts, insertProductsWithErrors = insertProductsWithErrors, printProducts = printProducts, printProductErrors = printProductErrors)
 
 	# scrape all custom tiles from 'Tile Gallery' on fritztile
 	# url: http://www.fritztile.com/fritz-products/custom-tile-gallery/
 	fc = fritzTileCustomTile()
-	fc.scrapeProducts(insertProducts = insertProducts, printProducts = printProducts)
+	fc.scrapeProducts(insertProducts = insertProducts, insertProductsWithErrors = insertProductsWithErrors, printProducts = printProducts, printProductErrors = printProductErrors)
 
 	# scrape all van Gelder products
 	v = vanGelder()
-	v.scrapeProducts(insertProducts = insertProducts, printProducts = printProducts)
+	v.scrapeProducts(insertProducts = insertProducts, insertProductsWithErrors = insertProductsWithErrors, printProducts = printProducts, printProductErrors = printProductErrors)
 
 
 	d = duroDesignCork()
-	d.scrapeProducts(insertProducts = insertProducts, printProducts = printProducts)
+	d.scrapeProducts(insertProducts = insertProducts, insertProductsWithErrors = insertProductsWithErrors, printProducts = printProducts, printProductErrors = printProductErrors)
 
 
 
@@ -105,7 +105,7 @@ class baseDomainSpecificScraperClass:
 				'manufacturer' : self.formatStr(self.getManufacturer()),
 				'type' : self.formatStr(self.getFlooringType()),
 				'additionalInfo' : self.getAdditionalData(),
-				'manurl' : self.getManURL()
+				'manurl' : self.getManURL()	
 			}
 
 		r = self.overrideByURL(r)
@@ -119,7 +119,7 @@ class baseDomainSpecificScraperClass:
 		return r
 		
 
-	def scrapeProducts(self, newURLs = [], searchForMoreProducts = True, printProducts = True, printProductErrors = True, insertProducts = False, insertProductsWithErrors = False):
+	def scrapeProducts(self, newURLs = [], scrapeCurrentURL = True, searchForMoreProducts = True, printProducts = True, printProductErrors = True, insertProducts = False, insertProductsWithErrors = False):
 		""" 
 			scrape all products found in self.productURLs, will also scrape urls found in newURLs if provided
 
@@ -144,7 +144,8 @@ class baseDomainSpecificScraperClass:
 		if searchForMoreProducts:
 			self.productURLs += self.getProductURLs()
 
-		self.productURLs += [self.url]
+		if scrapeCurrentURL:
+			self.productURLs += [self.url]
 
 		# append the newURLs to self.productURLs and only keep unique URLs
 		self.productURLs = list(set(newURLs + self.productURLs)) 
@@ -1082,7 +1083,8 @@ class capriAtHome(baseDomainSpecificScraperClass):
 	def getProductURLs(self):
 		productURLs = []
 		mainThumbs = self.soup.findAll(id = "mainthumbs")
-		
+
+
 		for thumb in mainThumbs:
 			url = thumb.a.get("href")
 			url = self.urlToAbsolute(url)
@@ -1096,13 +1098,16 @@ class capriAtHome(baseDomainSpecificScraperClass):
 
 
 	def getDescription(self):
-		info = self.soup.find(class_ = "information") # locate the main description section
-		[s.extract() for s in info(['a', 'span'])] # remove span and anchor elements
-		info = info.text 
-		info = info.strip() # strip white space at start and end of string
-		info = info.replace('\n', '</br>') 
-		return info
-
+		try:
+			info = self.soup.find(class_ = "information") # locate the main description section
+			[s.extract() for s in info(['a', 'span'])] # remove span and anchor elements
+			info = info.text 
+			info = info.strip() # strip white space at start and end of string
+			info = info.replace('\n', '</br>') 
+			return info
+		except:
+			print("error on url: " + str(self.url))
+			raise Exception('RIP')
 
 	def getProductPictureURLs(self):
 		slides = self.soup(class_ = "jqb_slide")

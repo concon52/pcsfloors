@@ -14,6 +14,7 @@
 	$row = mysqli_fetch_assoc($result);
 	$picarray = json_decode($row['picture']);
 	$colorarray = json_decode($row['colors']);
+	$manufacturer = $row['manufacturer'];
 
 ?>
 
@@ -38,6 +39,13 @@
 	<link rel="apple-touch-icon-precomposed" sizes="114x114" href="images/ico/pcs_logo.png"> 
 	<link rel="apple-touch-icon-precomposed" sizes="72x72" href="images/ico/pcs_logo.png"> 
 	<link rel="apple-touch-icon-precomposed" href="images/ico/pcs_logo.png">
+
+	<style>
+		#manufacturer {
+			font-weight: 100;
+		}
+	</style>
+
 	<script type="text/javascript" src="js/jquery.js"></script> 
 </head><!--/head-->
 <body>
@@ -85,6 +93,7 @@
 					<br><br>
 					<div class="row boxshadow">
 						<h2 class="title-one"><?=$row['name']?></h2>
+						<p id="manufacturer">By <?=$manufacturer?></p>
 					</div>	
 					<?php if (!empty($picarray)): ?>
 						<div style="padding-top:20px;">
