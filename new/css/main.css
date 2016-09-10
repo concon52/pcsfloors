@@ -1693,3 +1693,11 @@ a.pp_close {
 	height:inherit;
 	width:inherit;
 }
+
+.lightWeight {
+	font-weight: 100;
+}
+
+#manufacturer::before{
+	content: "By ";
+}

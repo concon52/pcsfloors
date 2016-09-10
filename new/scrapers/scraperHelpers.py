@@ -1141,11 +1141,11 @@ class capriAtHome(baseDomainSpecificScraperClass):
 		title = self.getTitle().lower()
 
 		if 'cork' in title:
-			return 'cork'
+			return 'Cork'
 		elif 'rubber' in title:
-			return 'rubber'
+			return 'Rubber'
 		elif 'linoleum' in title:
-			return 'linoleum'
+			return 'Linoleum'
 		else:
 			return ''
 

@@ -40,12 +40,6 @@
 	<link rel="apple-touch-icon-precomposed" sizes="72x72" href="images/ico/pcs_logo.png"> 
 	<link rel="apple-touch-icon-precomposed" href="images/ico/pcs_logo.png">
 
-	<style>
-		#manufacturer {
-			font-weight: 100;
-		}
-	</style>
-
 	<script type="text/javascript" src="js/jquery.js"></script> 
 </head><!--/head-->
 <body>
@@ -93,12 +87,13 @@
 					<br><br>
 					<div class="row boxshadow">
 						<h2 class="title-one"><?=$row['name']?></h2>
-						<p id="manufacturer">By <?=$manufacturer?></p>
+
+						<p id="manufacturer" class="lightWeight"><?=$manufacturer?></p>
 		        		<p>
-		        			<a href="productMenu.php" id="manufacturer">Back To Flooring Types</a>
+		        			<a href="productMenu.php" class="lightWeight">Back To Flooring Types</a>
 		        		</p>
 		        		<p>
-		        			<a href="productMenuMan.html" id="manufacturer">Back To Flooring Manufacturers</a>
+		        			<a href="productMenuMan.html" class="lightWeight">Back To Flooring Manufacturers</a>
 		        		</p>						
 					</div>	
 					<?php if (!empty($picarray)): ?>
@@ -157,7 +152,7 @@
 									<div class="col-md-4 col-xs-12 image-text pop">
 										<div class="effectfront hidden-xs">					
 											<img vspace="5" hspace="15" class="imageresource" style="width:80%; height:80%" src=<?=$colorarray[$key]->{'url'};?>>										
-											<button type="button" class="btn-primary orderbutton" style="display:none;">Order Sample</button>
+											<button type="button" class="btn-primary orderbutton addSampleToCart" style="display:none;">Order Sample</button>
 											<button type="button" class="btn-primary viewbutton" style="display:none;">View Image</button>
 										</div>
 										<div class="visible-xs">		
@@ -200,7 +195,7 @@
 										<div class="col-md-4 col-xs-12 image-text pop">
 											<div class="effectfront hidden-xs">					
 												<img vspace="5" hspace="15" class="imageresource" style="width:80%; height:80%" src=<?=$colorarray[$key]->{'url'};?>>										
-												<button type="button" class="btn-primary orderbutton" style="display:none;">Order Sample</button>
+												<button type="button" class="btn-primary orderbutton addSampleToCart" style="display:none;">Order Sample</button>
 												<button type="button" class="btn-primary viewbutton" style="display:none;">View Image</button>
 											</div>
 											<div class="visible-xs">		
@@ -230,7 +225,7 @@
 				</div>
 				<div class="modal-footer">
 					<p id="imagenamefooter" class="text-center"></p>
-					<button type="button" class="btn btn-primary" style="float:left;">Add Sample to Cart</button>
+					<button type="button" class="btn btn-primary addSampleToCart" style="float:left;">Add Sample to Cart</button>
 					<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
 				</div>
 			</div>
