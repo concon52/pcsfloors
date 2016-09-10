@@ -2,6 +2,8 @@
 
 	$success = 1;
 
+	error_reporting(0); //comment out for debugging
+
 	$mysqli = new mysqli('mysqlcluster9.registeredsite.com','pcsfloors','Padpimp1','padpimp');
 
 	if ($mysqli->connect_error) 
@@ -27,7 +29,7 @@
 	    return $randomString;
 	}
 
-	if($_POST['identifier'] == "edit")
+	if(!empty($_POST['identifier']) && $_POST['identifier'] == "edit")
 	{
 		$id = $_POST['id'];
 		$query = "SELECT * FROM Products WHERE id = $id";
@@ -69,7 +71,7 @@
 	$picarray = array();
 	$colorarray = array();
 
-	if($_POST['identifier'] == "edit")
+	if(!empty($_POST['identifier']) && $_POST['identifier'] == "edit")
 	{
 
 		foreach ($currentcolors as $key => $value) 
@@ -228,86 +230,89 @@
 // 	unset($value);
 // }
 
-	// Check if image file is a actual image or fake image
-	if ($_FILES['colors']["name"][0] != "" && $_POST['colorcodes'][0] == "")
+	if ($_FILES['colors']["name"][0] != "" && $_POST['colorcodes'][0] != "")
 	{
-		$fields['colors'] = $_FILES['colors'];
-		// download color pictures from urls
-		foreach ($fields['colors']["error"] as $key => $error)
+	// Check if image file is a actual image or fake image
+		if ($_FILES['colors']["name"][0] != "" && $_POST['colorcodes'][0] == "")
 		{
-			if ($fields["colors"]["name"][$key] != "")
+			$fields['colors'] = $_FILES['colors'];
+			// download color pictures from urls
+			foreach ($fields['colors']["error"] as $key => $error)
 			{
-				$target_dir = "pictures/";
-				$target_file = $target_dir . basename($_FILES["colors"]["name"][$key]);
-				$uploadOk = 1;
-				$imageFileType = pathinfo($target_file,PATHINFO_EXTENSION);
-				$path = "pictures/" . generateRandomString() . "." . $imageFileType;
-				while (file_exists($path))
+				if ($fields["colors"]["name"][$key] != "")
 				{
+					$target_dir = "pictures/";
+					$target_file = $target_dir . basename($_FILES["colors"]["name"][$key]);
+					$uploadOk = 1;
+					$imageFileType = pathinfo($target_file,PATHINFO_EXTENSION);
 					$path = "pictures/" . generateRandomString() . "." . $imageFileType;
-				}
+					while (file_exists($path))
+					{
+						$path = "pictures/" . generateRandomString() . "." . $imageFileType;
+					}
 
-				if(isset($fields["colors"])) 
-				{
-				    $check = getimagesize($_FILES["colors"]["tmp_name"][$key]);
-				    if($check !== false) {
-				        //echo "File is an image - " . $check["mime"] . ".";
-				        $uploadOk = 1;
-				    } else {
-				        //echo "File is not an image.";
-				        $uploadOk = 0;
-				    }
-				}
-				// Check file size
-				if ($_FILES["colors"]["size"][$key] > 500000) 
-				{
-				    //echo "Sorry, your file is too large.";
-				    $uploadOk = 0;
-				}
-				// Allow certain file formats
-				if($imageFileType != "jpg" && $imageFileType != "png" && $imageFileType != "jpeg"
-				&& $imageFileType != "gif" ) 
-				{
-				    //echo "Sorry, only JPG, JPEG, PNG & GIF files are allowed.";
-				    $uploadOk = 0;
-				}
-				// Check if $uploadOk is set to 0 by an error
-				if ($uploadOk == 0) 
-				{
-				    //echo "Sorry, your file was not uploaded.";
-				    $success = 0;
-				// if everything is ok, try to upload file
-				} 
-				else 
-				{
-				    if (move_uploaded_file($_FILES["colors"]["tmp_name"][$key], $path)) 
-				    {
-				        //echo "The file " . basename( $_FILES["colors"]["name"][$key]) . " has been uploaded.";
-				        array_push($colorarray, array("name" => $fields['colornames'][$key], "url" => $path));				        
-				    } 
-				    else 
-				    {
-				        //echo "Sorry, there was an error uploading your file.";
-				        $success = 0;
-				    }
+					if(isset($fields["colors"])) 
+					{
+					    $check = getimagesize($_FILES["colors"]["tmp_name"][$key]);
+					    if($check !== false) {
+					        //echo "File is an image - " . $check["mime"] . ".";
+					        $uploadOk = 1;
+					    } else {
+					        //echo "File is not an image.";
+					        $uploadOk = 0;
+					    }
+					}
+					// Check file size
+					if ($_FILES["colors"]["size"][$key] > 500000) 
+					{
+					    //echo "Sorry, your file is too large.";
+					    $uploadOk = 0;
+					}
+					// Allow certain file formats
+					if($imageFileType != "jpg" && $imageFileType != "png" && $imageFileType != "jpeg"
+					&& $imageFileType != "gif" ) 
+					{
+					    //echo "Sorry, only JPG, JPEG, PNG & GIF files are allowed.";
+					    $uploadOk = 0;
+					}
+					// Check if $uploadOk is set to 0 by an error
+					if ($uploadOk == 0) 
+					{
+					    //echo "Sorry, your file was not uploaded.";
+					    $success = 0;
+					// if everything is ok, try to upload file
+					} 
+					else 
+					{
+					    if (move_uploaded_file($_FILES["colors"]["tmp_name"][$key], $path)) 
+					    {
+					        //echo "The file " . basename( $_FILES["colors"]["name"][$key]) . " has been uploaded.";
+					        array_push($colorarray, array("name" => $fields['colornames'][$key], "url" => $path));				        
+					    } 
+					    else 
+					    {
+					        //echo "Sorry, there was an error uploading your file.";
+					        $success = 0;
+					    }
+					}
 				}
 			}
+			unset($value);
 		}
-		unset($value);
-	}
-	// if no images for colors, use CSS color codes
-	else if ($_POST['colorcodes'][0] != "")
-	{
-		$fields['colors'] = array();
-		foreach ($_POST['colorcodes'] as $key => $value) 
+		// if no images for colors, use CSS color codes
+		else if ($_POST['colorcodes'][0] != "")
 		{
-			array_push($fields['colors'], array("css" => $_POST['colorcodes'][$key]));
+			$fields['colors'] = array();
+			foreach ($_POST['colorcodes'] as $key => $value) 
+			{
+				array_push($fields['colors'], array("css" => $_POST['colorcodes'][$key]));
+			}
+			$fields['colors'] = json_encode($fields['colors']);
 		}
-		$fields['colors'] = json_encode($fields['colors']);
-	}
-	else
-	{
-		$success = 0;
+		else
+		{
+			$success = 0;
+		}
 	}
 
 	$picarray = json_encode($picarray);
@@ -318,7 +323,7 @@
 	$description = $mysqli->escape_string($fields['description']);
 	$manurl = $mysqli->escape_string($fields['manurl']);
 
-	if($_POST['identifier'] == "edit")
+	if(!empty($_POST['identifier']) && $_POST['identifier'] == "edit")
 	{
 		$query = "UPDATE Products SET name='$name', manufacturer='$manufacturer', type='$type', picture='$picarray', colors='$colorarray', description='$description', manurl='$manurl' WHERE id=$id";
 		print_r($query);
@@ -346,9 +351,14 @@
 			{
 				$statement->bind_param('sssssss', $fields['name'], $fields['manufacturer'], $fields['type'], $picarray, $colorarray, $fields['description'], $fields['manurl']);
 			}
-			else
+			else if ($_FILES['colors']["name"][0] == "" && $_POST['colorcodes'][0] != "")
 			{
 				$statement->bind_param('sssssss', $fields['name'], $fields['manufacturer'], $fields['type'], $picarray, $fields['colors'], $fields['description'], $fields['manurl']);		
+			}
+			else
+			{
+				$fields['colors'] = "[]";
+				$statement->bind_param('sssssss', $fields['name'], $fields['manufacturer'], $fields['type'], $picarray, $fields['colors'], $fields['description'], $fields['manurl']);
 			}
 		}
 		if($statement->execute())

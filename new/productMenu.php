@@ -90,9 +90,9 @@
 	<section id="products">
         <div class="container" id="productmenutitle">
         	<div class="row text-center">
-        		<h2 class="title-one animated bounceInLeft">Products</h2>
+        		<h2 class="title-one animated bounceInLeft">Product Types</h2>
         		<p>
-        			<a href="productMenuMan.html" id="manufacturer">Browse By Manufacturer</a>
+        			<a href="productMenuMan.html" class="lightWeight">Browse By Manufacturer</a>
         		</p>
         	</div>
                 <div class="col-lg-8 col-lg-offset-2">

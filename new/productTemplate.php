@@ -67,10 +67,10 @@
 				</div> 
 				<div class="collapse navbar-collapse"> 
 					<ul class="nav navbar-nav navbar-right"> 
-						<li class="scroll"><a href="#navigation">Home</a></li>
-						<li class="scroll"><a href="#about-us">About Us</a></li>
+						<li class="scroll"><a href="index.html">Home</a></li>
+						<li class="scroll"><a href="index.html">About Us</a></li>
 <!-- 						<li class="scroll"><a href="#portfolio">Portfolio</a></li> 
- -->						<li class="scroll"><a href="#clients">Testimonials</a></li>
+ -->						<li class="scroll"><a href="index.html">Testimonials</a></li>
 						<li class="active"><a href="productMenu.php">Products</a></li> 
 						<li><a href="contact.html">Contact</a></li>
 					</ul> 
@@ -94,7 +94,15 @@
 		        		</p>
 		        		<p>
 		        			<a href="productMenuMan.html" class="lightWeight">Back To Flooring Manufacturers</a>
-		        		</p>						
+		        		</p>
+		        		<div class="row text-center">
+	                			<form method="get" action="manProductPage.php" role="form" enctype="text/plain" id="manform">
+		                			<div class="row text-center">
+		                				<input name="man" type="hidden" value="<?php echo $manufacturer; ?>">            				
+		                					<a href="javascript:{}" onclick="document.getElementById('manform').submit();" class="lightWeight">Back To <?php echo $manufacturer . " Products"; ?></a>
+		                			</div>
+	                			</form>
+	                		</div>						
 					</div>	
 					<?php if (!empty($picarray)): ?>
 						<div style="padding-top:20px;">

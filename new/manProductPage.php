@@ -88,12 +88,12 @@
         <div class="container" id="productmenutitle">
         	<div class="row text-center">
         		<h2 class="title-one animated bounceInLeft">Products</h2>
-        		<p id="manufacturer">By <?=$man?></p>
+        		<p id="manufacturer"><?=$man?></p>
         		<p>
-        			<a href="productMenu.php" id="manufacturer">Back To Flooring Types</a>
+        			<a href="productMenu.php" class="lightWeight">Back To Flooring Types</a>
         		</p>
         		<p>
-        			<a href="productMenuMan.html" id="manufacturer">Back To Flooring Manufacturers</a>
+        			<a href="productMenuMan.html" class="lightWeight">Back To Flooring Manufacturers</a>
         		</p>
         	</div>
                 <div class="col-lg-8 col-lg-offset-2">
