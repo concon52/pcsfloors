@@ -16,6 +16,11 @@ import copy
 headers = {'user-agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_10_5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/51.0.2704.103 Safari/537.36'}
 
 def scrapeEverything(insertProducts = False, insertProductsWithErrors = False, printProducts = True, printProductErrors = True):
+	# Insert all the manually scraped manufacturers
+	if insertProducts:
+		smp = scrapeManualProducts()
+		smp.scrapeEm(showProgress = printProducts)
+
 	# scrape all Capri @ Home products
 	# url: http://www.capriathome.com/products.htm
 	ca = capriAtHome()
@@ -24,21 +29,20 @@ def scrapeEverything(insertProducts = False, insertProductsWithErrors = False, p
 	# scrape all tiles from 'Tile Gallery' on Fritztile
 	# url: http://www.fritztile.com/fritz-products/tile-gallery/classic-terrazzo-collection/c520515/
 	f = fritzTile()
-	f.scrapeProducts(insertProducts = insertProducts, insertProductsWithErrors = insertProductsWithErrors, printProducts = printProducts, printProductErrors = printProductErrors)
+	f.scrapeProducts(insertProducts = insertProducts, printProducts = printProducts)
 
 	# scrape all custom tiles from 'Tile Gallery' on fritztile
 	# url: http://www.fritztile.com/fritz-products/custom-tile-gallery/
 	fc = fritzTileCustomTile()
-	fc.scrapeProducts(insertProducts = insertProducts, insertProductsWithErrors = insertProductsWithErrors, printProducts = printProducts, printProductErrors = printProductErrors)
+	fc.scrapeProducts(insertProducts = insertProducts, printProducts = printProducts)
 
 	# scrape all van Gelder products
 	v = vanGelder()
 	v.scrapeProducts(insertProducts = insertProducts, insertProductsWithErrors = insertProductsWithErrors, printProducts = printProducts, printProductErrors = printProductErrors)
 
-
+	# scrape DuroDesign Cork Flooring
 	d = duroDesignCork()
 	d.scrapeProducts(insertProducts = insertProducts, insertProductsWithErrors = insertProductsWithErrors, printProducts = printProducts, printProductErrors = printProductErrors)
-
 
 
 
@@ -87,8 +91,9 @@ class baseDomainSpecificScraperClass:
 
 
 	def insertProductIntoDB(self):
+		print('started posting query...')
 		requests.post("http://s497483439.onlinehome.us/queryTemplate.php", self.getProductInfo(jsonEncode = True))
-
+		print('... query post finished')
 
 	def getProductInfo(self, jsonEncode = False, indent = None, force = False):
 		# if getProdcutInfo() has already been called for this product and (force == False), just use the info we already have for it
@@ -1166,8 +1171,427 @@ class capriAtHome(baseDomainSpecificScraperClass):
 
 
 
+class scrapeManualProducts():
+
+	def insertProductIntoDB(self, productInfo):
+		requests.post("http://s497483439.onlinehome.us/queryTemplate.php", json.dumps(productInfo, sort_keys = True))
+
+
+	def scrapeEm(self, showProgress = True):
+		if showProgress: print('Manually Scraped  [ start ]')
+
+		# insert Future Foam Products
+		if showProgress: print('    Future Foam  [ start ]')
+		ff = self.futureFoam()
+		for p in ff:
+			self.insertProductIntoDB(p)
+		if showProgress: print('    Future Foam  [ end ]')
+
+		# insert Jade  Industries Products
+		if showProgress: print('    Jade  [ start ]')
+		j = self.jade()
+		for p in j:
+			self.insertProductIntoDB(p)
+		if showProgress: print('    Jade  [ end ]')
+
+		# insert Jade  Industries Products
+		if showProgress: print('    Teebaud  [ start ]')
+		j = self.teebaud()
+		for p in j:
+			self.insertProductIntoDB(p)
+		if showProgress: print('    Teebaud  [ end ]')
+
+		# insert Jade  Industries Products
+		if showProgress: print('    American Fiber  [ start ]')
+		j = self.americanFiber()
+		for p in j:
+			self.insertProductIntoDB(p)
+		if showProgress: print('    American Fiber  [ end ]')
 
 
 
+		if showProgress: print('Manually Scraped   [ end ]')
+
+
+
+	def futureFoam(self):
+		return [
+			{
+				"name": "Residential Carpet Cushion",
+				"manufacturer": "Future Foam",
+				"type": "Carpet Cushion",
+				"picture": ["http://www.futurefoam.com/wordpress/wp-content/uploads/2015/09/hero-flooring-residential-1.jpg"],
+				"colors": [],
+				"manurl": "www.futurefoam.com",
+				"description": """
+					RESIDENTIAL CARPET CUSHION
+					<br>
+					Our premium carpet cushion provides insulation, sound dampening and superior comfort for your home. And with available Moisture Barrier technology, you can protect against pet odors and spills while preventing lingering smells and making clean-up easier.
+					<br><br>
+					STANDARD CARPET CUSHION
+					<br>
+					Designed with your lifestyle in mind, our range of high-quality carpet cushion provides a comfortable walk underfoot, dampens sound for a quieter home, acts as insulation and is resilient for years of use. 100% recyclable and certified as CRI Green Label Plus, you can be sure you're choosing the best material for your home and family.
+					<br><br>
+					MEMORY FOAM
+					<br>
+					As a leading producer of memory foam, we've taken our experience and created a line of carpet cushion that provides superior comfort and pressure relief all while maintaining its structure and enhancing the life of your new carpet. Manufactured from 90% recycled materials, LEED and CRI Green Label Plus certified and 100% recyclable after use, our memory foam carpet cushion, like all of our re-bonded cushion, is better for the environment and perfect for your home.
+					<br><br>
+					PRIME CARPET CUSHION
+					<br>
+					Our one-of-a-kind prime cushion offers superior comfort and luxurious feel underfoot without sacrificing the durability you need. It has a double-sided moisture barrier and is crafted with 100% recyclable material, LEED and CRI Green Label Certified and designed for maximum insulation to reduce energy costs and absorb sound."""
+			},
+			{
+				"name": "Commercial Carpet Cushion",
+				"manufacturer": "Future Foam",
+				"type": "Carpet Cushion",
+				"picture": ["http://www.futurefoam.com/wordpress/wp-content/uploads/2015/09/hero-flooring-commericial1.jpg"],
+				"colors": [],
+				"manurl": "www.futurefoam.com",
+				"description": """COMMERCIAL CARPET CUSHION
+					<br>
+					Future Foam's commercial carpet cushion is developed for any application where extra sturdiness is required, like high-traffic areas, so you can protect the life of your carpet without sacrificing comfort. All our commercial products are LEED and CRI Green Label certified."""
+			},
+			{
+				"name": "Underlayment",
+				"manufacturer": "Future Foam",
+				"type": "Underlayment",
+				"picture": ["http://www.futurefoam.com/wordpress/wp-content/uploads/2015/09/hero-flooring-underlay.jpg"],
+				"colors": [],
+				"manurl": "www.futurefoam.com",
+				"description": """
+					UNDERLAYMENT
+					<br>
+					Our premium underlayments provides insulation, better balance and more cushioning to your new hard floors. It's designed to enhance energy efficiency, dampen sound throughout your space, help level subfloor imperfections and work well with radiant heat surfaces."""
+
+			}
+		]
+
+	def jade(self):
+		return [
+			{
+				"name": "Rubber Anchor/Rubber Anchor II",
+				"manufacturer": "JADE Industries",
+				"type": "Rug Pad",
+				"picture": ["http://rugpads.com/cms/Portals/0/Jade/images/Rubber-Anchor.jpg"],
+				"colors": [],
+				"manurl": "www.rugpads.com",
+				"description": """
+					Rubber Anchor/Rubber Anchor II
+					<br>
+					Simply stated, Rubber Anchor and Rubber Anchor II are the very best pads for area rugs. Made with open cell natural rubber, Rubber Anchor's comfort, resilience, performance in protecting against rug wear and preventing slipping on both wood and tile floors is unsurpassed by any other rug pads. Rubber Anchor's smooth surface eliminates the possibility of texture showing through even the finest rugs. Rubber Anchor II was designed to enhance all the qualities of Rubber Anchor. Not only is it 40% lighter in weight, it is tougher, springier, grippier and longer lasting. The finest area rugs deserve the Rubber Anchor."""
+			},
+			{
+				"name": "UltiMat/ OptiMat",
+				"manufacturer": "JADE Industries",
+				"type": "Rug Pad",
+				"picture": ["http://rugpads.com/cms/Portals/0/Jade/images/Ultimat-Optimat.jpg"],
+				"colors": [],
+				"manurl": "www.rugpads.com",
+				"description": """
+					UltiMat/ OptiMat
+					<br>
+					Finally, an area rug pad that performs as well on wall-to-wall carpet as it does on hard surfaces. With twice the number of uses, UltiMat is literally the ultimate in pad products. It enables you to reduce your inventory, plus it is competitively priced. OptiMat performs similarly and is optimally priced below the competition. Place the reverse waffle "tentacle grip" side face down on hard floors and you have more gripping power than any other pad. Turn UltiMat or OptiMat over - rubber side up - and you have a pad that keeps area rugs securely in place over wall- to-wall carpeting. The surface is specially treated to provide extra grip and prevent fuzzing and fraying. UltiMat is made with 28 ounces of fiber and 20 ounces of washable rubber and 5 ounces of latex face coat per square yard. OptiMat has 22 ounces of felt and 16 ounces of non-washable rubber per square yard with a heat fused face Both UltiMat and OptiMat are available in 6' and 12' rolls as well as pre-packaged in standard and custom sizes."""
+			},
+			{
+				"name": "ECONET",
+				"manufacturer": "JADE Industries",
+				"type": "Rug Pad",
+				"picture": ["http://rugpads.com/cms/Portals/0/Jade/images/Econet-Image.jpg"],
+				"colors": [],
+				"manurl": "www.rugpads.com",
+				"description": """
+					ECONET
+					<br>
+					EcoNet is the world's most earth friendly rug pad. Made with natural rubber and jute. For use over laminated wood, wood, tile and other hard floors. Open grid design lets rug breathe, eases vacuuming, and protects your floors and rug. It will not stain, mar or discolor standard flooring. Through its partnership with Trees for the Future, Jade plants a tree for every EcoNet pad sold.
+					<br><br>
+					RubberNet
+					<br>
+					For those who appreciate the benefits of natural rubber and prefer an open weave design, RubberNet is the best line of open-weave natural latex area rug pads available. RubberNet protects your customers' investment against wear and prevents accidents by keeping rugs from slipping with natural rubber's superior grip strength.
+					<br><br>
+					RubberNet products are available in two roll widths and pre-packaged in standard and custom sizes."""
+			},
+			{
+				"name": "SECURENET",
+				"manufacturer": "JADE Industries",
+				"type": "Rug Pad",
+				"picture": ["http://rugpads.com/cms/Portals/0/Jade/images/Securenet-Image.jpg"],
+				"colors": [],
+				"manurl": "www.rugpads.com",
+				"description": """
+					SECURENET
+					<br>
+					SecureNet is made with soft pillows of rubber to provide a comfortable cushion that holds rugs tight to the floor.tight spots.
+					<br><br>
+					RubberNet
+					<br>
+					For those who appreciate the benefits of natural rubber and prefer an open weave design, RubberNet is the best line of open-weave natural latex area rug pads available. RubberNet protects your customers' investment against wear and prevents accidents by keeping rugs from slipping with natural rubber's superior grip strength.
+					<br><br>
+					RubberNet products are available in two roll widths and pre-packaged in standard and custom sizes."""
+			},
+			{
+				"name": "MAGNET",
+				"manufacturer": "JADE Industries",
+				"type": "Rug Pad",
+				"picture": ["http://rugpads.com/cms/Portals/0/Jade/images/Magnet-Image.jpg"],
+				"colors": [],
+				"manurl": "www.rugpads.com",
+				"description": """
+					MAGNET
+					<br>
+					MagNet is the thickest and toughest natural open weave available to protect your rugs and customers.
+					<br><br>
+					RubberNet
+					<br>
+					For those who appreciate the benefits of natural rubber and prefer an open weave design, RubberNet is the best line of open-weave natural latex area rug pads available. RubberNet protects your customers' investment against wear and prevents accidents by keeping rugs from slipping with natural rubber's superior grip strength.
+					<br><br>
+					RubberNet products are available in two roll widths and pre-packaged in standard and custom sizes."""
+
+			},
+			{
+				"name": "PADLOCK",
+				"manufacturer": "JADE Industries",
+				"type": "Rug Pad",
+				"picture": ["http://rugpads.com/cms/Portals/0/Jade/images/Padlock-Image.jpg"],
+				"colors": [],
+				"manurl": "www.rugpads.com",
+				"description": """
+					PADLOCK
+					<br>
+					PadLock is a slim pad that 'locks' area rugs to all hard surfaces. PadLock is so sturdy it can be washed in a washing machine yet trims easily with household scissors.
+					<br><br>
+					LockSet
+					<br>
+					LockSet provides a complete range of synthetic rubber non-slip area rug pad options for price sensitive customers. There is a Lockset product that is a precise match for every rug type, traffic condition and price point.
+					<br><br>
+					Lock-Set products are available in 6' and 12' wide full rolls and pre-packaged in standard sizes."""
+			},
+			{
+				"name": "GRIDLOCK",
+				"manufacturer": "JADE Industries",
+				"type": "Rug Pad",
+				"picture": ["http://rugpads.com/cms/Portals/0/Jade/images/Gridlock-Image.jpg"],
+				"colors": [],
+				"manurl": "www.rugpads.com",
+				"description": """
+					GRIDLOCK
+					<br>
+					GridLock is a medium thick area rug pad with superior cushioning ability and grip strength. Its open grid design allows rugs to 'breathe' and facilitates vacuuming by allowing air to penetrate to the floor.GridLock is a medium thick area rug pad with superior cushioning ability and grip strength. Its open grid design allows rugs to 'breathe' and facilitates vacuuming by allowing air to penetrate to the floor.
+					<br><br>
+					LockSet
+					<br>
+					LockSet provides a complete range of synthetic rubber non-slip area rug pad options for price sensitive customers. There is a Lockset product that is a precise match for every rug type, traffic condition and price point.
+					<br><br>
+					Lock-Set products are available in 6' and 12' wide full rolls and pre-packaged in standard sizes."""
+			},
+			{
+				"name": "WEDLOCK",
+				"manufacturer": "JADE Industries",
+				"type": "Rug Pad",
+				"picture": ["http://rugpads.com/cms/Portals/0/Jade/images/Wedlock-Image.jpg"],
+				"colors": [],
+				"manurl": "www.rugpads.com",
+				"description": """
+					WEDLOCK
+					<br>
+					WedLock invisibly 'weds' rugs to all natural and synthetic carpets without creating a raised look. Made of non-allergenic, bonded fibers, WedLock's adhesive will not transfer to carpet or rug. It trims easily with household scissors.
+					<br><br>
+					LockSet
+					<br>
+					LockSet provides a complete range of synthetic rubber non-slip area rug pad options for price sensitive customers. There is a Lockset product that is a precise match for every rug type, traffic condition and price point.
+					<br><br>
+					Lock-Set products are available in 6' and 12' wide full rolls and pre-packaged in standard sizes."""
+			} 
+		]
+
+	def teebaud(self):
+		return [
+			{
+				"name": "WEDLOCK",
+				"manufacturer": "Teebaud",
+				"type": "Underlayment",
+				"picture": ["http://teebaud.com/wp-content/uploads/2013/06/banner-product.jpg"],
+				"colors": [],
+				"manurl": "www.teebaud.com",
+				"description": """
+					ONE PRODUCT – ANY FLOOR!
+					<br>
+					TEEBAUD® has been developed and engineered to obtain the best nonskid performance for a rug pad. The product is made of two different polyester fibers needle-punched together and coated, on both sides, with a specially formulated water-based pressure sensitive dry adhesive which will outperform pads coated with a plain polymeric-acrylic resin. TEEBAUD®'s two components, containing 12 ounces of fiber per square yard, gives to the pad enough body and density to resist the horizontal movement that creates the buckling effect of the underlay under the rug.
+					<br><br>
+					This is why TEEBAUD® has almost one pound of fiber per yard, compared to most competing products which commonly have only 3 to 4 ounces of fiber. The light cushioning effect allows the pad and the rug to breathe together with no risk of oxidation or discoloration to any flooring surface. TEEBAUD® will not give a permanent bond to the floor. It is a repositionable underlay: harmless to carpeting, floors and rugs."""
+			}
+		]
+
+
+	def americanFiber(self):
+		return [
+			{
+				"name": "ULTRA",
+				"manufacturer": "American Fiber Cushion",
+				"type": "Carpet Cushion",
+				"picture": ["http://www.americanfibercushion.net/images/ultra%20flat-crop-u3362.jpg", "http://www.americanfibercushion.net/images/hi%20res%20ultra%20flat.jpg", "http://www.americanfibercushion.net/images/ultra%201-crop-u3353.jpg"],
+				"colors": [],
+				"manurl": "www.americanfibercushion.net",
+				"description": """
+					ULTRA
+					<br><br>
+					Great comfort and feel. Under foot improves acoustics and reduces noise. Very consistent thickness and density. The new generation of carpet cushion. Great pet friendly product with no VOC's. 
+					<br><br>
+					Comes in 24oz, 28oz, 32oz, & 32oz double stick."""
+
+			},
+			{
+				"name": "FORTITUDE",
+				"manufacturer": "American Fiber Cushion",
+				"type": "Carpet Cushion",
+				"picture": ["http://www.americanfibercushion.net/images/3%20fort%20rolls%20white%20bg-crop-u3475.jpg", "http://www.americanfibercushion.net/images/hi%20res%20fort%20samples-crop-u3553.jpg", "http://www.americanfibercushion.net/images/fort%20samples-crop-u3571.jpg", "http://www.americanfibercushion.net/images/hi%20res%20fort%20samples%202-crop-u3562.jpg"],
+				"colors": [],
+				"manurl": "www.americanfibercushion.net",
+				"description": """
+					FORTITUDE
+					<br><br>
+					Consistent thickness and density. Provides thermal insulation. May be used with radiant heating. Meets or exceeds HUD-FHA requirements. Meets the CARPET CUSHION COUNCIL requirements.
+					<br><br>
+					Comes in 20oz, 24oz, 28oz, 32 oz and 40oz."""
+			},
+			{
+				"name": "DOUBLE STICK",
+				"manufacturer": "American Fiber Cushion",
+				"type": "Carpet Cushion",
+				"picture": ["http://www.americanfibercushion.net/images/ds%20flat.jpg"],
+				"colors": [],
+				"manurl": "www.americanfibercushion.net",
+				"description": """
+					DOUBLE STICK
+					<br><br>
+					Consistent thickness and density. Provides thermal insulation. May be used with radiant heating. Meets or exceeds HUD-FHA requirements. Meets the CARPET CUSHION COUNCIL requirements.
+					<br><br>
+					Comes in 32oz and 40oz."""
+			},
+			{
+				"name": "PREMIER",
+				"manufacturer": "American Fiber Cushion",
+				"type": "Carpet Cushion",
+				"picture": ["http://www.americanfibercushion.net/images/ez%20glide%20flat-crop-u3638.jpg", "http://www.americanfibercushion.net/images/ez%20glide%201.jpg", "http://www.americanfibercushion.net/images/hi%20res%20ez%20glide-crop-u3593.jpg"],
+				"colors": [],
+				"manurl": "www.americanfibercushion.net",
+				"description": """
+					PREMIER
+					<br><br>
+					Premier dramatically reduces carpet wear. Excellent dimensional stability. Ideal for carts and rolling traffic. Meets the CARPET CUSHION COUNCIL requirements.
+					<br><br>
+					Comes in 28oz, 32oz, 40oz, and 50oz. """
+			},
+			{
+				"name": "Platinum Slide-Stop",
+				"manufacturer": "American Fiber Cushion",
+				"type": "Rug Pad",
+				"picture": ["https://upload.wikimedia.org/wikipedia/commons/2/26/512pxIcon-sunset_photo_not_found.png"],
+				"colors": [],
+				"manurl": "www.americanfibercushion.net",
+				"description": """
+					Platinum Slide-Stop
+					<br><br>
+					Maximum Gripping Power Does not contain Latex or PVC. The best product to keep your area rug from sliding. Contains a moisture barrier to help keep a floor dry when pets have an accident. Available in most standard area rugs sizes. Adds cushion under foot 0.250". Extends the life of your area rug for use on all surfaces. 
+					<br><br>
+					Limited Lifetime Warranty. """
+
+			},
+			{
+				"name": "Ultimate Slide-Stop",
+				"manufacturer": "American Fiber Cushion",
+				"type": "Rug Pad",
+				"picture": ["https://upload.wikimedia.org/wikipedia/commons/2/26/512pxIcon-sunset_photo_not_found.png"],
+				"colors": [],
+				"manurl": "www.americanfibercushion.net",
+				"description": """
+					Ultimate Slide-Stop
+					<br><br>
+					Superior Gripping Power Contains a latex non-slip side for superior performance. The industry standard to keep your area rug from sliding. Available in most standard area rugs sizes. Adds cushion under foot 0.250". Extends the life of your area rug for use on all surfaces even carpet. 
+					<br><br>
+					Limited 15 Year Warranty. """
+			},
+			{
+				"name": "All Surface Slide-Stop",
+				"manufacturer": "American Fiber Cushion",
+				"type": "Rug Pad",
+				"picture": ["https://upload.wikimedia.org/wikipedia/commons/2/26/512pxIcon-sunset_photo_not_found.png"],
+				"colors": [],
+				"manurl": "www.americanfibercushion.net",
+				"description": """
+					All Surface Slide-Stop
+					<br><br>
+					Superior Gripping Power Contains a latex non-slip side for superior performance. The industry standard to keep your area rug from sliding. Available in most standard area rugs sizes. Adds cushion under foot 0.160" lower profile for thick rugs. Extends the life of your area rug for use on all surfaces even carpet.
+					<br><br>
+					Limited 15 Year Warranty."""
+			},
+			{
+				"name": "Premium Slide-Stop",
+				"manufacturer": "American Fiber Cushion",
+				"type": "Rug Pad",
+				"picture": ["https://upload.wikimedia.org/wikipedia/commons/2/26/512pxIcon-sunset_photo_not_found.png"],
+				"colors": [],
+				"manurl": "www.americanfibercushion.net",
+				"description": """
+					Premium Slide-Stop
+					<br><br>
+					Superior Gripping Power. Keeps rugs secure. Prevents slipping. Makes vacuuming easier. For use on all hard floors. 
+					<br><br>
+					Extra Cushioning. Adds extra comfort underfoot.
+					<br><br>
+					Environmentally Friendly. Made from plant-based products. Supports earth-smart greener living. """
+			},
+			{
+				"name": "Basic Slide-Stop",
+				"manufacturer": "American Fiber Cushion",
+				"type": "Rug Pad",
+				"picture": ["https://upload.wikimedia.org/wikipedia/commons/2/26/512pxIcon-sunset_photo_not_found.png"],
+				"colors": [],
+				"manurl": "www.americanfibercushion.net",
+				"description": """
+					Premium Slide-Stop
+					<br><br>
+					Superior Gripping Power. Keeps rugs secure. Prevents slipping. Makes vacuuming easier. For use on all hard floors. 
+					<br><br>
+					Extra Cushioning. Adds extra comfort underfoot.
+					<br><br>
+					Environmentally Friendly. Made from plant-based products. Supports earth-smart greener living. """
+			},
+			{
+				"name": "Silent Moisture Guard",
+				"manufacturer": "American Fiber Cushion",
+				"type": "Underlayment",
+				"picture": ["https://upload.wikimedia.org/wikipedia/commons/2/26/512pxIcon-sunset_photo_not_found.png"],
+				"colors": [],
+				"manurl": "www.americanfibercushion.net",
+				"description": """
+					Silent Moisture Guard Meets or exceeds new standards for Laminate Underlayment. Made with 100% Recycled Fibers. Easy to install on grade or above grade. Made with Patent Applied for Technology. Meets the CRI V.O.C. emissions testing requirements. For use with all brands of interlocking and laminate flooring. Superior Sound deadening properties. Moisture vapor blocking. 
+					<br><br>
+					Specifications:
+					<br>
+					Thickness 0.165"
+					<br>
+					Density lbs/cu.ft. 9
+					<br>
+					Tensile Strength Length 125
+					<br>
+					Tensile Strength Width 141
+					<br>
+					Pill Test PASS
+					<br>
+					Radiant panel- ASTME 648 Class 1
+					<br>
+					Water Vapor Transmission 0.28 PERMS
+					<br>
+					Compression Resistance 4.6PSI
+					<br>
+					IIC 70
+					<br>
+					STC 65
+					<br>
+					Roll Width 3'/6'
+					<br>
+					Roll Length 33.3'/60'"""
+			}
+		]
 
 

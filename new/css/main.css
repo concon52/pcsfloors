@@ -1709,3 +1709,6 @@ a.pp_close {
 	content: "By ";
 }
 
+.item > img{
+	width:100%;
+}

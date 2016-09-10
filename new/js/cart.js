@@ -15,24 +15,26 @@ function showProductInCart(name, productPic, quantity, colorName, colorURL){
     // }
     // else{
         $('tbody').append(
-        	"<tr><td class='tableCell productCell' data-th='Product'><div><div><img class='productThumb' src='" + 
-        	productPic + 
-        	"'></div><div><h4 class='nomargin'>" + 
-        	name + 
-        	"</h4><input type='hidden' name='name' value='" + 
+            "<tr><td class='tableCell productCell' data-th='Product'><div><div><img class='productThumb' src='" + 
+            ((productPic) ? productPic : '') + 
+            "'></div><div><h4 class='nomargin'>" + 
+            name + 
+            "</h4><input type='hidden' name='name' value='" + 
             name + 
             "'></div></div></td><td class='tableCell' data-th='Color'><div><img class='colorThumb' src='" + 
-        	colorURL + 
-        	"'></div><div>" + 
-        	colorName + 
-        	"</div><input type='hidden' name='colorName' value='" + 
+            ((colorURL) ? colorURL : '') + 
+            "'></div><div>" + 
+            colorName + 
+            "</div><input type='hidden' name='colorName' value='" + 
             colorName + 
             "'></td><td class='tableCell' data-th='Quantity'><input size='2' style='width:unset;' type='number' class='text-center' value='" + 
-        	quantity + 
-        	"'><input type='hidden' name='quantity' value='" + 
+            quantity + 
+            "'><input type='hidden' name='quantity' value='" + 
             quantity + 
             "'></td><td class='tableCell' data-th='Remove from cart'><input type='button' class='btn btn-primary removebutton' value='Remove'></td></tr>"
-    	)
+        )
+
+        console.log('name: ' + name + ' | productPic: ' + ((productPic) ? productPic : 'N/A')   + ' | quantity: ' + quantity + ' | colorName: ' + colorName + ' | colorURL: ' + ((colorURL) ? colorURL : 'N/A'))
     // }
 }
 
@@ -88,10 +90,12 @@ function doStuff(){
 
     productArray = $.cookie("products")
 
-    productArray.forEach(function(pDict, index, array){
-        console.log(pDict.name)
-        showProductInCart(pDict.name, pDict.productPic, pDict.quantity, pDict.colorName, pDict.colorURL);
-    });
+    if(productArray !== undefined && productArray instanceof Array){
+        productArray.forEach(function(pDict, index, array){
+            console.log(pDict)
+            showProductInCart(pDict.name, pDict.productPic, pDict.quantity, pDict.colorName, pDict.colorURL);
+        });
+    }
 }
 
 doStuff()
