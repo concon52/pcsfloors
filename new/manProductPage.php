@@ -40,7 +40,10 @@
 
 <!DOCTYPE html>
 
-<?php outputHeader(); ?>
+<?php 
+	include 'header.php';
+	outputHeader();
+?>
 
 	<section id="products">
         <div class="container" id="productmenutitle">

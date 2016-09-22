@@ -48,3 +48,6 @@ Temporary Items
 
 # compiled Python scripts
 __pycache__
+
+# archives of what was on the server before changing a lot of files
+serverArchive

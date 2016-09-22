@@ -1,5 +1,6 @@
 <?php
-include 'header.php';
+
+<?php include 'header.php';?>
 	
 	// connect to database
 	$mysqli = new mysqli('mysqlcluster9.registeredsite.com','pcsfloors','Padpimp1','padpimp');

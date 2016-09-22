@@ -1,6 +1,9 @@
 <!DOCTYPE html>
 
-<?php outputHeader(); ?>
+<?php 
+	include 'header.php';
+	outputHeader();
+?>
 
 	<section id="home">
 		<div class="home-pattern"></div>
