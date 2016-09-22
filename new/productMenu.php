@@ -44,7 +44,9 @@ include 'header.php';
 
 <!DOCTYPE html>
 
-<?php include 'header.php';?>	
+<?php 
+	outputHeader();
+?>	
 
 	<section id="products">
         <div class="container" id="productmenutitle">
