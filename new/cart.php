@@ -57,6 +57,7 @@ include 'header.php';
 <?php outputHeader(); ?>
 
     <!--/#navigation-->
+    <section>
     <div class="container" style="padding-top: 100px;">
         <!-- <section id="products">
             <div class="shopping"> -->
@@ -103,9 +104,9 @@ include 'header.php';
             </tbody>
             <tfoot>
                 <tr>
-                    <td><a href="#" class="btn_-warning"><i class="left"></i> Continue Shopping</a></td>
+                    <td><a href="productMenu.php" class="btn_-warning"><i class="left"></i> Continue Shopping</a></td>
                     <td colspan="2" class="hidden-xs"></td>
-                    <td><a href="#" onclick="$('#cartProducts').submit()" class="checkoutk">Place order<i class="-right"></i></a></td>
+                    <td colspan="2" class="hidden-xs"'></td>
                 </tr>
             </tfoot>
         </table>
@@ -113,6 +114,75 @@ include 'header.php';
         <!-- </div>
         </section> -->
     </div>
+    </section>
+
+    <section id="contact">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8 col-lg-offset-2">
+                    <h1>Complete your order.</h1>
+                    <p>Please enter your contact information to complete your sample order with PCS Distributors.</p>
+                        <!-- <form id="contact-form" method="post" action="contactScript.php" role="form"> -->
+                        <form id="contact-form" onsubmit="validateMyForm();" method="post" action="contactScript.php" role="form">
+                            <div class="messages"></div>
+
+                            <div class="controls">
+
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label for="form_name">Firstname *</label>
+                                            <input id="form_name" type="text" name="name" class="form-control" placeholder="Please enter your firstname *" required="required" data-error="Firstname is required.">
+                                            <div class="help-block with-errors"></div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label for="form_lastname">Lastname *</label>
+                                            <input id="form_lastname" type="text" name="surname" class="form-control" placeholder="Please enter your lastname *" required="required" data-error="Lastname is required.">
+                                            <div class="help-block with-errors"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label for="form_email">Email *</label>
+                                            <input id="form_email" type="email" name="email" class="form-control" placeholder="Please enter your email *" required="required" data-error="Valid email is required.">
+                                            <div class="help-block with-errors"></div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label for="form_phone">Phone</label>
+                                            <input id="form_phone" type="tel" name="phone" class="form-control" placeholder="Please enter your phone">
+                                            <div class="help-block with-errors"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="form-group">
+                                            <label for="form_message">Message</label>
+                                            <textarea id="form_message" name="message" class="form-control" placeholder="Additional questions, comments, or concerns" rows="4"></textarea> 
+                                            <div class="help-block with-errors"></div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12">
+                                        <input type="submit" class="btn btn-success btn-send" value="Place order">
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <p class="text-muted"><strong>*</strong> These fields are required.</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                </div>
+            </div>
+        </div>
+    </section>
     <footer id="footer">
         <div class="container">
             <div class="text-center">
@@ -135,7 +205,33 @@ include 'header.php';
     <script type="text/javascript" src="js/jquery.cookie.js"></script>
     <script type="text/javascript" src="js/cart.js"></script>
 
+    <script>
+        function validateMyForm()
+        {
+            messageHandle = $("#contact-form textarea[name='message']")
+            
+            temp = messageHandle.val()
 
+            productsString = ''
+
+            $.cookie.json = true;
+
+            productArray = $.cookie("products")
+
+            if(productArray !== undefined && productArray instanceof Array){
+                productArray.forEach(function(item, index, array){
+                    productsString += '\n' + (index + 1) + '\n\tProduct Name: ' + item['name'] + '\n\tColor Name: ' + item['colorName'] + '\n\tSupplier: ' + item['manufacturer'] + '\n\n'
+                });
+            }
+
+            message = productsString + temp
+
+            messageHandle.val(message)
+
+            return true
+        }
+
+    </script>
     <script>
         <?php //foreach($dbProducts as $key => $value): ?>
         //     // var thisScript = document.currentScript

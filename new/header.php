@@ -1,7 +1,17 @@
 <?php
 
+
 function outputHeader()
 {
+if(isset($_COOKIE['products'])){
+	$productsCookie = $_COOKIE['products'];	
+	$productsArray = json_decode($productsCookie);
+	$productsCount = count($productsArray);
+}
+else
+{
+	$productsCount = 0;
+}
 
 $url = 'http://' . $_SERVER['SERVER_NAME'] . $_SERVER['REQUEST_URI'];
 
@@ -50,7 +60,9 @@ echo '
 							<li class="scroll"><a href="#about-us">About Us</a></li>
 							<li class="scroll"><a href="#clients">Testimonials</a></li>
 							<li><a href="productMenu.php">Products</a></li> 
-							<li><a href="contact.php">Contact</a></li>';
+							<li><a href="contact.php">Contact</a></li>
+							<li><a href="cart.php"><span class="glyphicon glyphicon-shopping-cart" aria-hidden="true"></span> ( ' . 
+							$productsCount . ' )</a></li>';
 						}
 
 						else if (strpos($url,"contact") !== false) 
@@ -59,7 +71,9 @@ echo '
 							<li><a href="index.php">About Us</a></li>
 							<li><a href="index.php">Testimonials</a></li>
 							<li><a href="productMenu.php">Products</a></li> 
-							<li class="active"><a href="contact.php">Contact</a></li>';
+							<li class="active"><a href="contact.php">Contact</a></li>
+							<li><a href="cart.php"><span class="glyphicon glyphicon-shopping-cart" aria-hidden="true"></span> ( ' . 
+							$productsCount . ' )</a></li>';
 						}
 
 						else if (strpos(strtolower($url),"product") !== false) 
@@ -68,7 +82,20 @@ echo '
 							<li><a href="index.php">About Us</a></li>
 							<li><a href="index.php">Testimonials</a></li>
 							<li class="active"><a href="productMenu.php">Products</a></li> 
-							<li><a href="contact.php">Contact</a></li>';
+							<li><a href="contact.php">Contact</a></li>
+							<li><a href="cart.php"><span class="glyphicon glyphicon-shopping-cart" aria-hidden="true"></span> ( ' . 
+							$productsCount . ' )</a></li>';
+						}
+
+						else if (strpos(strtolower($url),"cart") !== false) 
+						{
+							echo '<li><a href="index.php">Home</a></li>
+							<li><a href="index.php">About Us</a></li>
+							<li><a href="index.php">Testimonials</a></li>
+							<li><a href="productMenu.php">Products</a></li> 
+							<li><a href="contact.php">Contact</a></li>
+							<li class="active"><a href="cart.php"><span class="glyphicon glyphicon-shopping-cart" aria-hidden="true"></span> ( ' . 
+							$productsCount . ' )</a></li>'; 
 						}
 
 						else
@@ -77,7 +104,9 @@ echo '
 							<li class="scroll"><a href="#about-us">About Us</a></li>
 							<li class="scroll"><a href="#clients">Testimonials</a></li>
 							<li><a href="productMenu.php">Products</a></li> 
-							<li><a href="contact.php">Contact</a></li>';
+							<li><a href="contact.php">Contact</a></li>
+							<li><a href="cart.php"><span class="glyphicon glyphicon-shopping-cart" aria-hidden="true"></span> ( ' . 
+							$productsCount . ' )</a></li>';
 						}
 
 						echo "
