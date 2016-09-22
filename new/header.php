@@ -71,6 +71,15 @@ echo '
 							<li><a href="contact.php">Contact</a></li>';
 						}
 
+						else
+						{
+							echo '<li class="scroll active"><a href="#navigation">Home</a></li>
+							<li class="scroll"><a href="#about-us">About Us</a></li>
+							<li class="scroll"><a href="#clients">Testimonials</a></li>
+							<li><a href="productMenu.php">Products</a></li> 
+							<li><a href="contact.php">Contact</a></li>';
+						}
+
 						echo "
 						</ul> 
 					</div> 
