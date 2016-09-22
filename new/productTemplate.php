@@ -36,7 +36,7 @@ include 'header.php';
 		        			<a href="productMenu.php" class="lightWeight">Back To Flooring Types</a>
 		        		</p>
 		        		<p>
-		        			<a href="productMenuMan.html" class="lightWeight">Back To Flooring Manufacturers</a>
+		        			<a href="productMenuMan.php" class="lightWeight">Back To Flooring Manufacturers</a>
 		        		</p>
 		        		<div class="row text-center">
 	                			<form method="get" action="manProductPage.php" role="form" enctype="text/plain" id="manform">
