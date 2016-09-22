@@ -1,379 +1,154 @@
-<?php
+<!DOCTYPE html>
 
-	$success = 1;
+<?php outputHeader(); ?>
 
-	error_reporting(0); //comment out for debugging
+	<section id="contactInformation">
+		<div class="container">
+			<div class="text-center">
+				<div class="col-sm-8 col-sm-offset-2" style="margin-top:75px;">
+					<h2 class="title-one animated bounceInLeft">Insert products to database</h2>
+				</div>
+			</div>
+		</div>
+	</section>
 
-	$mysqli = new mysqli('mysqlcluster9.registeredsite.com','pcsfloors','Padpimp1','padpimp');
+	<section id="contact">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8 col-lg-offset-2">
+                    <h1>Query form</h1>
+                    <p class="lead">Enter product information to be inserted</p>
+						<form id="queryInsert-form" method="post" action="databaseInsertTemplateScript.php" role="form" enctype="multipart/form-data">
 
-	if ($mysqli->connect_error) 
-	{
-	    die('Error : ('. $mysqli->connect_errno .') '. $mysqli->connect_error);
-	}
+						    <div class="messages"></div>
 
-	error_reporting(E_ALL);
-	ini_set('display_errors', 1);
+						    <div class="controls">
 
-	// function to generate random string
-	function generateRandomString($length = 10)
-	{
-	    $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
-	    $charactersLength = strlen($characters);
-	    $randomString = '';
+						        <div class="row">
+						            <div class="col-md-6">
+						                <div class="form-group">
+						                    <label for="form_name">Product name *</label>
+						                    <input id="form_name" type="text" name="name" class="form-control" placeholder="Please enter product name" required="required" data-error="Name is required.">
+						                    <div class="help-block with-errors"></div>
+						                </div>
+						            </div>
+						            <div class="col-md-6">
+						                <div class="form-group">
+						                    <label for="form_manufacturer">Manufacturer *</label>
+						                    <input id="form_manaufacturer" type="text" name="manufacturer" class="form-control" placeholder="Please enter manufacturer name" required="required" data-error="Manufacturer is required.">
+						                    <div class="help-block with-errors"></div>
+						                </div>
+						            </div>
+						        </div>
+						        <div class="row">
+						            <div class="col-md-6">
+						                <div class="form-group">
+						                    <label for="form_type">Type *</label>
+						                    <input id="form_type" type="text" name="type" class="form-control" placeholder="Please enter product type" required="required" data-error="Type is required.">
+						                    <div class="help-block with-errors"></div>
+						                </div>
+						            </div>
+						            <div class="col-md-6">
+						                <div class="form-group">
+						                    <label for="form_picture">Picture *</label>
+						                    <input id="form_picture" type="file" name="picture[]" class="form-control-file fileupload1" required="required" data-error="Pictures are required">
+						                    <div class="help-block with-errors"></div>						                    
+						                </div>
+						            </div>
+						        </div>
+						        <div class="row">
+						            <div class="col-md-6">						             
+						                    <ul class="nav nav-tabs">
+												<li class="active"><a data-toggle="tab" href="#colorimages">Colors (Images)</a></li>
+												<li><a data-toggle="tab" href="#colorcode">Color (Codes/Names)</a></li>
+											</ul>
+											<div class="tab-content">
+												<div id="colorimages" class="tab-pane fade in active">
+													<div class="form-group">													
+									                    <input id="form_colors" type="file" name="colors[]" class="form-control-file fileupload2" placeholder="Please enter colors"></input>
+									                    <input id="form_colorname" type="text" name="colornames[]" class="form-control nameinput" placeholder="Name of color">
+									                    <div class="help-block with-errors"></div>
+													</div>
+												</div>
+												<div id="colorcode" class="tab-pane fade in">
+													<div class="form-group">													
+									                    <input id="form_colorcodes" type="text" name="colorcodes[]" class="colorinput form-control" placeholder="Please enter color codes"></input>
+									                    <button type="button" class="colorbutton">Add another code</button>
+									                    <div class="help-block with-errors"></div>
+									                </div>
+								            	</div>
+											</div>		                							                
+						            </div>
+						            <div class="col-md-6">
+						                <div class="form-group">
+						                    <label for="form_type">ID</label>
+						                    <input id="form_type" type="number" min="0" max="100000" name="id" class="form-control" placeholder="Please enter product ID" data-error="ID is wrong. Try again.">
+						                    <div class="help-block with-errors"></div>
+						                </div>
+						            </div>
+						        </div>
+						        <div class="row">
+						        	<div class="col-md-6">
+						                <div class="form-group">
+						                    <label for="form_type">Manufacturer URL *</label>
+						                    <input id="form_type" type="text" name="manurl" class="form-control" placeholder="Please enter Manufacturer URL" required="required" data-error="Manufacturer URL is required.">
+						                    <div class="help-block with-errors"></div>
+						                </div>
+						            </div>
+						        </div>
+						        <div class="row">
+						            <div class="col-md-12">
+						                <div class="form-group">
+						                    <label for="form_description">Description *</label>
+						                    <textarea id="form_description" type="text" name="description" class="form-control" placeholder="Please enter product description" rows="4" required="required" data-error="Description is required"></textarea>
+						                    <div class="help-block with-errors"></div>
+						                </div>
+						            </div>
+						        </div>
+						            <div class="col-md-12">
+						                <input type="submit" class="btn btn-success btn-send" value="Insert Product">
+						            </div>
+						        <div class="row">
+						            <div class="col-md-12"><br>
+						                <p class="text-muted"><strong>*</strong> These fields are required.</p>
+						            </div>
+						        </div>
+						    </div>
 
-	    for ($i = 0; $i < $length; $i++) 
-	    {
-	        $randomString .= $characters[rand(0, $charactersLength - 1)];
-	    }
+						</form>
+                </div>
+            </div>
+        </div>
+	</section>
 
-	    return $randomString;
-	}
+	<footer id="footer"> 
+		<div class="container"> 
+			<div class="text-center"> 
+				<p>Copyright &copy; <script>document.write(new Date().getFullYear())</script> - PCS Distributors | All Rights Reserved
+				</p> 
+			</div> 
+		</div> 
+	</footer> <!--/#footer--> 
 
-	if(!empty($_POST['identifier']) && $_POST['identifier'] == "edit")
-	{
-		$id = $_POST['id'];
-		$query = "SELECT * FROM Products WHERE id = $id";
-		$result = mysqli_query($mysqli, $query);
-		$row = mysqli_fetch_assoc($result);
-		$currentcolors = json_decode($row['colors']);
-		
-		// populate fields with POST
-		$fields = array('name' => $_POST['name'], 
-						'manufacturer' => $_POST['manufacturer'], 
-						'type' => $_POST['type'], 
-						'picture' => $_FILES['picture'], 
-						'id' => $_POST['id'], 
-						'description' => $_POST['description'], 
-						'manurl' => $_POST['manurl'],
-						'removedPictures' => $_POST['removedPictures'],
-						'removedColors' => $_POST['removedColors'],
-						'oldColors' => $_POST['oldColors'],
-						'oldPictures' => $_POST['oldPictures'],
-						'colornames' => $_POST['colornames']
-						);
-	}
-	else
-	{
-		// populate fields with POST
-		$fields = array('name' => $_POST['name'], 
-						'manufacturer' => $_POST['manufacturer'], 
-						'type' => $_POST['type'], 
-						'picture' => $_FILES['picture'], 
-						'id' => $_POST['id'], 
-						'description' => $_POST['description'], 
-						'manurl' => $_POST['manurl'],
-						'colornames' => $_POST['colornames']
-						);		
-	}
-
-
-	// declare arrays for FILES
-	$picarray = array();
-	$colorarray = array();
-
-	if(!empty($_POST['identifier']) && $_POST['identifier'] == "edit")
-	{
-
-		foreach ($currentcolors as $key => $value) 
-		{
-			if (array_search($currentcolors[$key]->{'url'}, $fields['removedColors']))
-			{
-				array_splice($currentcolors, $key, $key);
-			}
-			else
-			{
-				array_push($colorarray, $currentcolors[$key]);
-			}
-		}
-
-		foreach($fields['removedPictures'] as $value)
-		{
-			unlink($value);
-		}
-		foreach ($fields['removedColors'] as $value) 
-		{
-			unlink($value);
-		}
-		foreach ($fields['oldPictures'] as $value)
-		{
-			array_push($picarray, $value);
-		}
-	}
-
-
-	// Check if image file is a actual image or fake image
-	foreach ($fields['picture']["error"] as $key => $error)
-	{
-		if ($fields["picture"]["name"][$key] != "")
-		{
-			$target_dir = "pictures/";
-			$target_file = $target_dir . basename($_FILES["picture"]["name"][$key]);
-			$uploadOk = 1;
-			$imageFileType = pathinfo($target_file,PATHINFO_EXTENSION);
-			$path = "pictures/" . generateRandomString() . "." . $imageFileType;
-			while (file_exists($path))
-			{
-				$path = "pictures/" . generateRandomString() . "." . $imageFileType;
-			}
-
-			if(isset($fields["pictures"][$key])) 
-			{
-			    $check = getimagesize($_FILES["picture"]["tmp_name"][$key]);
-			    if($check !== false) {
-			        //echo "File is an image - " . $check["mime"] . ".";
-			        $uploadOk = 1;
-			    } else {
-			        //echo "File is not an image.";
-			        $uploadOk = 0;
-			    }
-			}
-			// Check file size
-			if ($_FILES["picture"]["size"][$key] > 500000) 
-			{
-			    //echo "Sorry, your file is too large.";
-			    $uploadOk = 0;
-			}
-			// Allow certain file formats
-			if($imageFileType != "jpg" && $imageFileType != "png" && $imageFileType != "jpeg"
-			&& $imageFileType != "gif" ) 
-			{
-			    //echo "Sorry, only JPG, JPEG, PNG & GIF files are allowed.";
-			    $uploadOk = 0;
-			}
-			// Check if $uploadOk is set to 0 by an error
-			if ($uploadOk == 0) 
-			{
-			    //echo "Sorry, your file was not uploaded.";
-			    $success = 0;
-			// if everything is ok, try to upload file
-			} 
-			else 
-			{
-			    if (move_uploaded_file($_FILES["picture"]["tmp_name"][$key], $path)) 
-			    {
-			        //echo "The file " . basename( $_FILES["picture"]["name"][$key]) . " has been uploaded.";
-			        array_push($picarray, $path);
-			    } 
-			    else 
-			    {
-			        //echo "Sorry, there was an error uploading your file.";
-			        $success = 0;
-			    }
-			}
-		}
-	}
-	unset($value);
-
-// function processPicture(array $files)
-// {
-// 	// download color pictures from urls
-// 	foreach ($files as $key => $value)
-// 	{
-// 		if ($files[$key] != "")
-// 		{
-// 			$target_dir = "pictures/";
-// 			$target_file = $target_dir . basename($files[$key]);
-// 			$uploadOk = 1;
-// 			$imageFileType = pathinfo($target_file,PATHINFO_EXTENSION);
-// 			$path = "pictures/" . generateRandomString() . "." . $imageFileType;
-// 			while (file_exists($path))
-// 			{
-// 				$path = "pictures/" . generateRandomString() . "." . $imageFileType;
-// 			}
-
-// 			if(isset($fields["colors"])) 
-// 			{
-// 			    $check = getimagesize($_FILES["colors"]["tmp_name"][$key]);
-// 			    if($check !== false) {
-// 			        //echo "File is an image - " . $check["mime"] . ".";
-// 			        $uploadOk = 1;
-// 			    } else {
-// 			        //echo "File is not an image.";
-// 			        $uploadOk = 0;
-// 			    }
-// 			}
-// 			// Check file size
-// 			if ($_FILES["colors"]["size"][$key] > 500000) 
-// 			{
-// 			    //echo "Sorry, your file is too large.";
-// 			    $uploadOk = 0;
-// 			}
-// 			// Allow certain file formats
-// 			if($imageFileType != "jpg" && $imageFileType != "png" && $imageFileType != "jpeg"
-// 			&& $imageFileType != "gif" ) 
-// 			{
-// 			    //echo "Sorry, only JPG, JPEG, PNG & GIF files are allowed.";
-// 			    $uploadOk = 0;
-// 			}
-// 			// Check if $uploadOk is set to 0 by an error
-// 			if ($uploadOk == 0) 
-// 			{
-// 			    //echo "Sorry, your file was not uploaded.";
-// 			    $success = 0;
-// 			// if everything is ok, try to upload file
-// 			} 
-// 			else 
-// 			{
-// 			    if (move_uploaded_file($_FILES["colors"]["tmp_name"][$key], $path)) 
-// 			    {
-// 			        //echo "The file " . basename( $_FILES["colors"]["name"][$key]) . " has been uploaded.";
-// 			        array_push($colorarray, array("name" => $fields['colornames'][$key], "url" => $path));				        
-// 			    } 
-// 			    else 
-// 			    {
-// 			        //echo "Sorry, there was an error uploading your file.";
-// 			        $success = 0;
-// 			    }
-// 			}
-// 		}
-// 	}
-// 	unset($value);
-// }
-
-	if ($_FILES['colors']["name"][0] != "" && $_POST['colorcodes'][0] != "")
-	{
-	// Check if image file is a actual image or fake image
-		if ($_FILES['colors']["name"][0] != "" && $_POST['colorcodes'][0] == "")
-		{
-			$fields['colors'] = $_FILES['colors'];
-			// download color pictures from urls
-			foreach ($fields['colors']["error"] as $key => $error)
-			{
-				if ($fields["colors"]["name"][$key] != "")
-				{
-					$target_dir = "pictures/";
-					$target_file = $target_dir . basename($_FILES["colors"]["name"][$key]);
-					$uploadOk = 1;
-					$imageFileType = pathinfo($target_file,PATHINFO_EXTENSION);
-					$path = "pictures/" . generateRandomString() . "." . $imageFileType;
-					while (file_exists($path))
-					{
-						$path = "pictures/" . generateRandomString() . "." . $imageFileType;
-					}
-
-					if(isset($fields["colors"])) 
-					{
-					    $check = getimagesize($_FILES["colors"]["tmp_name"][$key]);
-					    if($check !== false) {
-					        //echo "File is an image - " . $check["mime"] . ".";
-					        $uploadOk = 1;
-					    } else {
-					        //echo "File is not an image.";
-					        $uploadOk = 0;
-					    }
-					}
-					// Check file size
-					if ($_FILES["colors"]["size"][$key] > 500000) 
-					{
-					    //echo "Sorry, your file is too large.";
-					    $uploadOk = 0;
-					}
-					// Allow certain file formats
-					if($imageFileType != "jpg" && $imageFileType != "png" && $imageFileType != "jpeg"
-					&& $imageFileType != "gif" ) 
-					{
-					    //echo "Sorry, only JPG, JPEG, PNG & GIF files are allowed.";
-					    $uploadOk = 0;
-					}
-					// Check if $uploadOk is set to 0 by an error
-					if ($uploadOk == 0) 
-					{
-					    //echo "Sorry, your file was not uploaded.";
-					    $success = 0;
-					// if everything is ok, try to upload file
-					} 
-					else 
-					{
-					    if (move_uploaded_file($_FILES["colors"]["tmp_name"][$key], $path)) 
-					    {
-					        //echo "The file " . basename( $_FILES["colors"]["name"][$key]) . " has been uploaded.";
-					        array_push($colorarray, array("name" => $fields['colornames'][$key], "url" => $path));				        
-					    } 
-					    else 
-					    {
-					        //echo "Sorry, there was an error uploading your file.";
-					        $success = 0;
-					    }
-					}
-				}
-			}
-			unset($value);
-		}
-		// if no images for colors, use CSS color codes
-		else if ($_POST['colorcodes'][0] != "")
-		{
-			$fields['colors'] = array();
-			foreach ($_POST['colorcodes'] as $key => $value) 
-			{
-				array_push($fields['colors'], array("css" => $_POST['colorcodes'][$key]));
-			}
-			$fields['colors'] = json_encode($fields['colors']);
-		}
-		else
-		{
-			$success = 0;
-		}
-	}
-
-	$picarray = json_encode($picarray);
-	$colorarray = json_encode($colorarray);
-	$name = $mysqli->escape_string($fields['name']);
-	$manufacturer = $mysqli->escape_string($fields['manufacturer']);
-	$type = $mysqli->escape_string($fields['type']);
-	$description = $mysqli->escape_string($fields['description']);
-	$manurl = $mysqli->escape_string($fields['manurl']);
-
-	if(!empty($_POST['identifier']) && $_POST['identifier'] == "edit")
-	{
-		$query = "UPDATE Products SET name='$name', manufacturer='$manufacturer', type='$type', picture='$picarray', colors='$colorarray', description='$description', manurl='$manurl' WHERE id=$id";
-		print_r($query);
-
-		if($mysqli->query($query))
-		{
-			//print 'Success! ID of last inserted record is : ' .$query->insert_id .'<br />'; 
-			header("Location: databaseSuccess.html");
-		}
-		else
-		{
-			header("Location: databaseFailure.html");
-			die('Error : ('. $mysqli->errno .') '. $mysqli->error);
-		}
-	}
-	else
-	{
-
-		if ($success == 1)
-		{
-			$query = "INSERT INTO Products (name, manufacturer, type, picture, colors, description, manurl) VALUES (?, ?, ?, ?, ?, ?, ?)";
-			$statement = $mysqli->prepare($query);
-
-			if ($_FILES['colors']["name"][0] != "" && $_POST['colorcodes'][0] == "")
-			{
-				$statement->bind_param('sssssss', $fields['name'], $fields['manufacturer'], $fields['type'], $picarray, $colorarray, $fields['description'], $fields['manurl']);
-			}
-			else if ($_FILES['colors']["name"][0] == "" && $_POST['colorcodes'][0] != "")
-			{
-				$statement->bind_param('sssssss', $fields['name'], $fields['manufacturer'], $fields['type'], $picarray, $fields['colors'], $fields['description'], $fields['manurl']);		
-			}
-			else
-			{
-				$fields['colors'] = "[]";
-				$statement->bind_param('sssssss', $fields['name'], $fields['manufacturer'], $fields['type'], $picarray, $fields['colors'], $fields['description'], $fields['manurl']);
-			}
-		}
-		if($statement->execute())
-		{
-			//print 'Success! ID of last inserted record is : ' .$statement->insert_id .'<br />'; 
-			header("Location: databaseSuccess.html");
-		}
-		else
-		{
-			header("Location: databaseFailure.html");
-			die('Error : ('. $mysqli->errno .') '. $mysqli->error);
-		}
-		$statement->close();
-
-	}
-
-
-?>
+	<script type="text/javascript" src="js/jquery.js"></script> 
+	<script type="text/javascript" src="js/bootstrap.min.js"></script>
+	<script type="text/javascript" src="js/smoothscroll.js"></script> 
+	<script type="text/javascript" src="js/jquery.isotope.min.js"></script>
+	<script type="text/javascript" src="js/jquery.prettyPhoto.js"></script> 
+	<script type="text/javascript" src="js/jquery.parallax.js"></script> 
+	<script type="text/javascript" src="js/main.js"></script> 
+    <script src="validator.js"></script>
+    <script src="contact.js"></script>
+</body>
+<script>
+	$('#queryInsert-form').delegate('input.fileupload1', 'change', function(){
+	  $('form input.fileupload1').last().after($('<input type="file" name="picture[]" class="form-control-file fileupload1" />'));
+	});
+	$('#queryInsert-form').delegate('input.fileupload2', 'change', function(){
+	  $('form input.nameinput').last().after($('<input type="file" name="colors[]" class="form-control-file fileupload2" /><input id="form_colorname" type="text" name="colornames[]" class="form-control nameinput" placeholder="Name of color" />'));
+	});
+	$('#queryInsert-form').delegate('button.colorbutton', 'click', function(){
+	  $('form input.colorinput').last().after($('<input id="form_colorcodes" type="text" name="colorcodes[]" class="colorinput form-control" placeholder="Please enter color codes" required="required" data-error="Valid color code is required." />'));
+	});
+</script>
+</html>

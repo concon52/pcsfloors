@@ -2,7 +2,7 @@ $(function ()
 {
     $('#query-form').on('submit', function (e) {
         if (!e.isDefaultPrevented()) {
-            var url = "databaseRemoveTemplate.php";
+            var url = "databaseRemoveTemplateScript.php";
 
             $.ajax({
                 type: "POST",

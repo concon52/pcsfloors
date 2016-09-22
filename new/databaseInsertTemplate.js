@@ -2,7 +2,7 @@ $(function ()
 {
     $('#queryInsert-form').on('submit', function (e) {
         if (!e.isDefaultPrevented()) {
-            var url = "databaseInsertTemplate.php";
+            var url = "databaseInsertTemplateScript.php";
 
             $.ajax({
                 type: "POST",

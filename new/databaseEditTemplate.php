@@ -39,7 +39,7 @@ include 'header.php';
                 <div class="col-lg-8 col-lg-offset-2">
                     <h1>Query form</h1>
                     <p class="lead">Edit product information</p>
-						<form id="queryEdit-form" method="post" action="databaseInsertTemplate.php" role="form" enctype="multipart/form-data">
+						<form id="queryEdit-form" method="post" action="databaseInsertTemplateScript.php" role="form" enctype="multipart/form-data">
 
 						    <div class="messages"></div>
 
