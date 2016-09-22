@@ -1,5 +1,6 @@
 <?php
-	
+include 'header.php';
+
 	$typecount=1;
 	$count=0;
 
