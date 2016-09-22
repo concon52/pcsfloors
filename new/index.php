@@ -54,8 +54,8 @@
 				<div class="col-sm-8 col-sm-offset-2">
 					<h2 class="title-one">About Us</h2>
 					<p>Bringing compelling niche products to Northern California Flooring Market since 1971.</p>
-					<p>Since January of 2016 PCS is under the new direction lead by Doug Wilson and the rest of the PCS team.</p>
-					<p>Our Sales Manager for the North Bay (north of Hwy 92) is Vickie Haussmann.</p>
+					<p>Since January of 2016 PCS is under the new direction led by Doug Wilson and the rest of the PCS team.</p>
+					<p>Our Sales Manager for the North Bay (North of Hwy 92) is Vickie Haussmann.</p>
 					<p>Our Sales manager in the South Bay is Nihad Sahmanovic.</p>
 				</div>
 			</div>
