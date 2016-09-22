@@ -1720,3 +1720,32 @@ a.pp_close {
     -1px 1px 0 #000,
     1px 1px 0 #000 !important; 
 }
+
+.orderbuttonnopic {
+	margin-top: 30px;
+}
+
+.productThumb {
+    max-width: 200px
+}
+
+.productThumb:hover {
+    max-width: 100%;
+}
+
+.colorThumb {
+    max-width: 100px;
+}
+
+.colorThumb:hover {
+    max-width: 100%;
+}
+
+.tableCell {
+    vertical-align: middle !important;
+    text-align: center;
+}
+
+.productCell{
+	text-align: inherit;
+}
