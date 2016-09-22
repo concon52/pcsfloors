@@ -1,4 +1,4 @@
-function showProductInCart(name, productPic, quantity, colorName, colorURL){
+function showProductInCart(index, name, productPic, quantity, colorName, colorURL){
 
     // if productPic == undefined or productPic == 'undefined'{
     //     $('tbody').append(
@@ -31,7 +31,7 @@ function showProductInCart(name, productPic, quantity, colorName, colorURL){
             quantity + 
             "'><input type='hidden' name='quantity' value='" + 
             quantity + 
-            "'></td><td class='tableCell' data-th='Remove from cart'><input type='button' class='btn btn-primary removebutton' value='Remove'></td></tr>"
+            "'></td><td class='tableCell' data-th='Remove from cart'><input type='button' class='btn btn-primary removebutton' id='remove-" + index + "' value='Remove'></td></tr>"
         )
 
         console.log('name: ' + name + ' | productPic: ' + ((productPic) ? productPic : 'N/A')   + ' | quantity: ' + quantity + ' | colorName: ' + colorName + ' | colorURL: ' + ((colorURL) ? colorURL : 'N/A'))
@@ -40,50 +40,50 @@ function showProductInCart(name, productPic, quantity, colorName, colorURL){
 
 
  
-// // Note: ended up needing to requery the DB --for info that we could already have in cookie-- because cookies are pretty small (4kb)
-// //   We hit the limit around 12 products stored in cookie the other way so we're passing the min info via cookie and querying the rest from DB
-// function insertProductsWithDBInfo(dbProducts)
-// {
-//     $.cookie.json = true;
+// Note: ended up needing to requery the DB --for info that we could already have in cookie-- because cookies are pretty small (4kb)
+//   We hit the limit around 12 products stored in cookie the other way so we're passing the min info via cookie and querying the rest from DB
+function insertProductsWithDBInfo(dbProducts)
+{
+    $.cookie.json = true;
 
-//     productArray = $.cookie("products")
-
-
-//     // $.each(productArray, function(key, pDict){
-//     productArray.forEach(function(pDict, i, arr){
-//         p = '';
-//         // match product info from cookie with product info from DB
-//         for(var key in dbProducts){
-//         // $.each(dbProducts, function(key, element){
-//         // dbProducts.forEach(function(element, index, array){
-//             if(key == pDict.id){
-//                 p = dbProducts[key];
-//                 break;
-//             }
-//         };
+    productArray = $.cookie("products")
 
 
+    // $.each(productArray, function(key, pDict){
+    productArray.forEach(function(pDict, i, arr){
+        p = '';
+        // match product info from cookie with product info from DB
+        for(var key in dbProducts){
+        // $.each(dbProducts, function(key, element){
+        // dbProducts.forEach(function(element, index, array){
+            if(key == pDict.id){
+                p = dbProducts[key];
+                break;
+            }
+        };
 
-//         // find the color URL based on the name that we stored
-//         colorURL = ''
 
-//         if(p){
-//             $.each(p.colors, function(key, element){
-//             // p.colors.forEach(function(element, index, array){
-//                 if(element.name == pDict.c){
-//                     colorURL = element.url;
-//                     // break;
-//                 }
-//             });
 
-//             insertProductInCart(p.name, p.productPic, pDict.q, pDict.c, colorURL)
-//         }
+        // find the color URL based on the name that we stored
+        colorURL = ''
 
-//         console.log(pDict)
-//     });
+        if(p){
+            $.each(p.colors, function(key, element){
+            // p.colors.forEach(function(element, index, array){
+                if(element.name == pDict.c){
+                    colorURL = element.url;
+                    // break;
+                }
+            });
 
-// 	    // showProductInCart(pDict.name, pDict.productPic, pDict.quantity, pDict.colorName, pDict.colorURL);
-// }
+            insertProductInCart(p.name, p.productPic, pDict.q, pDict.c, colorURL)
+        }
+
+        console.log(pDict)
+    });
+
+	    // showProductInCart(pDict.name, pDict.productPic, pDict.quantity, pDict.colorName, pDict.colorURL);
+}
 
 
 function doStuff(){
@@ -94,16 +94,36 @@ function doStuff(){
     if(productArray !== undefined && productArray instanceof Array){
         productArray.forEach(function(pDict, index, array){
             console.log(pDict)
-            showProductInCart(pDict.name, pDict.productPic, pDict.quantity, pDict.colorName, pDict.colorURL);
+            showProductInCart(index, pDict.name, pDict.productPic, pDict.quantity, pDict.colorName, pDict.colorURL);
         });
     }
+
+    setRemoveHandler()
 }
 
 doStuff()
 
 
 
+function setRemoveHandler(){
+    $('.removebutton').click(function(){
+        index = $(this).attr('id').split('-')[1]
 
-$('.removebutton').click(function(){
-    $(this).parent().parent().remove()
-})
+        $.cookie.json = true;
+
+        productArray = $.cookie("products")
+
+        if(productArray !== undefined && productArray instanceof Array){
+            productArray.splice(index, 1)
+
+            // appendCookie("products", productArray)
+            $.cookie("products", productArray)
+
+            $('#cart tbody tr').remove()
+
+            doStuff()
+        }
+
+        // $(this).parent().parent().remove()
+    })
+}
