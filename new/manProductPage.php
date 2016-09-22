@@ -51,7 +51,7 @@
         			<a href="productMenu.php" class="lightWeight">Back To Flooring Types</a>
         		</p>
         		<p>
-        			<a href="productMenuMan.html" class="lightWeight">Back To Flooring Manufacturers</a>
+        			<a href="productMenuMan.php" class="lightWeight">Back To Flooring Manufacturers</a>
         		</p>
         	</div>
                 <div class="col-lg-8 col-lg-offset-2">
