@@ -50,7 +50,7 @@
         	<div class="row text-center">
         		<h2 class="title-one animated bounceInLeft">Product Types</h2>
         		<p>
-        			<a href="productMenuMan.html" class="lightWeight">Browse By Manufacturer</a>
+        			<a href="productMenuMan.php" class="lightWeight">Browse By Manufacturer</a>
         		</p>
         	</div>
                 <div class="col-lg-8 col-lg-offset-2">
