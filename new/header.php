@@ -46,9 +46,9 @@ echo '
 
 						if (strpos($url,"index") !== false) 
 						{
-							echo '<li class="scroll active"><a href="index.php">Home</a></li>
-							<li class="scroll"><a href="index.php">About Us</a></li>
-							<li class="scroll"><a href="index.php">Testimonials</a></li>
+							echo '<li class="scroll active"><a href="#navigation">Home</a></li>
+							<li class="scroll"><a href="#about-us">About Us</a></li>
+							<li class="scroll"><a href="#clients">Testimonials</a></li>
 							<li><a href="productMenu.php">Products</a></li> 
 							<li><a href="contact.php">Contact</a></li>';
 						}
