@@ -55,18 +55,18 @@ echo '
 
 						else if (strpos($url,"contact") !== false) 
 						{
-							echo '<li class="scroll"><a href="index.php">Home</a></li>
-							<li class="scroll"><a href="index.php">About Us</a></li>
-							<li class="scroll"><a href="index.php">Testimonials</a></li>
+							echo '<li><a href="index.php">Home</a></li>
+							<li><a href="index.php">About Us</a></li>
+							<li><a href="index.php">Testimonials</a></li>
 							<li><a href="productMenu.php">Products</a></li> 
 							<li class="active"><a href="contact.php">Contact</a></li>';
 						}
 
 						else if (strpos(strtolower($url),"product") !== false) 
 						{
-							echo '<li class="scroll"><a href="index.php">Home</a></li>
-							<li class="scroll"><a href="index.php">About Us</a></li>
-							<li class="scroll"><a href="index.php">Testimonials</a></li>
+							echo '<li><a href="index.php">Home</a></li>
+							<li><a href="index.php">About Us</a></li>
+							<li><a href="index.php">Testimonials</a></li>
 							<li class="active"><a href="productMenu.php">Products</a></li> 
 							<li><a href="contact.php">Contact</a></li>';
 						}
