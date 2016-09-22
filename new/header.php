@@ -53,7 +53,7 @@ echo '
 							<li><a href="contact.php">Contact</a></li>';
 						}
 
-						if (strpos($url,"contact") !== false) 
+						else if (strpos($url,"contact") !== false) 
 						{
 							echo '<li class="scroll"><a href="index.php">Home</a></li>
 							<li class="scroll"><a href="index.php">About Us</a></li>
